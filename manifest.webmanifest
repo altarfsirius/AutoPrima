@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Altair Auto",
+  "short_name": "Altair Auto",
+  "description": "Program perawatan kendaraan pribadi: jadwal servis, riwayat, dan reliability.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "automotive"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
