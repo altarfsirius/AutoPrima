@@ -3021,6 +3021,8 @@ notify pgrst, 'reload schema';</pre>
 --   file: sql/rollback_polaris_hub_1.sql
 -- =====================================================================
 
+-- Rev 28: area yang dikirim Altair Auto = 'automotive' (life area Automotive). 'work'/'freelance' tetap VALID di kolom
+--         (data lama tidak ditolak) tetapi tidak lagi dikirim; 'personal' tidak pernah dikirim.
 -- 1) Kolom tautan pada tiga tabel yang dipetakan: project (L1) · work_order (L2) · job_card (L3)
 do $$
 declare t text;
@@ -3034,7 +3036,7 @@ begin
     execute format('alter table %I add column if not exists field_times jsonb not null default ''{}''::jsonb', t);
     execute format('alter table %I add column if not exists polaris_updated_at timestamptz', t);
     execute format('alter table %I drop constraint if exists %I', t, t || '_polaris_area_check');
-    execute format('alter table %I add constraint %I check (polaris_area is null or polaris_area in (''work'',''freelance'',''personal''))', t, t || '_polaris_area_check');
+    execute format('alter table %I add constraint %I check (polaris_area is null or polaris_area in (''automotive'',''personal'',''work'',''freelance''))', t, t || '_polaris_area_check');
     execute format('create unique index if not exists %I on %I (polaris_ref) where polaris_ref is not null', t || '_polaris_ref_uidx', t);
     execute format('create index if not exists %I on %I (polaris_updated_at) where polaris_sync', t || '_polaris_upd_idx', t);
   end loop;
@@ -17428,7 +17430,14 @@ function sysCard(sys){
       <button class="ghost" onclick="INTUI.test('${sys}')">Tes koneksi</button>
       <button class="ghost" onclick="INTUI.signOut('${sys}')"${u ? '' : ' disabled'}>Keluar</button>
     </div>
-    <div class="msg" id="intMsg_${sys}"></div>${sys === 'tuntas' ? autoCard() : ''}</div>`;
+    <div class="msg" id="intMsg_${sys}"></div>${sys === 'tuntas' ? areaCard() + autoCard() : ''}</div>`;
+}
+function areaCard(){
+  return `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+    <h3 style="margin:0 0 6px;font-size:15px;">Life area &ldquo;Automotive&rdquo;</h3>
+    <p class="hint" style="margin:0 0 8px;">Activity yang dikirim ke Tuntas dimasukkan ke life area Automotive bila life area itu ada di akun Tuntas Anda. Tombol ini memeriksanya dan, bila belum ada, menambahkannya (🚗 Automotive — Ertiga, Picanto, sama dengan bawaan Tuntas). Tidak ada yang dihapus atau diubah. Cara manual di Tuntas: Plan → Life Areas → Add default life areas.</p>
+    <div class="row-actions"><button class="ghost" onclick="INTUI.areaOn()"${ST.user.tuntas ? '' : ' disabled'}>Aktifkan life area Automotive</button></div>
+    <div class="msg" id="intAreaMsg"></div></div>`;
 }
 function autoCard(){
   const ac = autoCfg();
@@ -17571,6 +17580,17 @@ window.INTUI = {
   syncVeh(v){ ST.syncVid = v || null; renderSyncBar(); },
   async ensure(){ if(ST.initKey !== A().connKey()){ ST.initKey = A().connKey(); await this.init(); } },
   async refresh(){ await loadState(); },
+  areaOn: guard('intAreaMsg', async function(){
+    const cl = need('tuntas'); say('intAreaMsg', 'info', 'Memeriksa life area di Tuntas…');
+    const r = await cl.from('portfolios').select('id,name').ilike('name', '%automotive%').limit(1);
+    if(r.error) throw new Error(errText(r.error));
+    if(r.data && r.data[0]){ ST.pf = r.data[0].id; await logOp('tuntas', 'tes', 'life area Automotive', 0, 'ok', 'sudah ada'); say('intAreaMsg', 'ok', 'Life area “' + r.data[0].name + '” sudah ada di Tuntas. Activity yang dikirim atau diperbarui akan dimasukkan ke sana.'); return; }
+    const n = await cl.from('portfolios').select('id', { count:'exact', head:true });
+    const ins = await cl.from('portfolios').insert({ name:'Automotive', icon:'🚗', color:'#64748B', description:'Ertiga, Picanto', sort_order:(n && n.count) || 0 }).select('id,name').single();
+    if(ins.error) throw new Error(errText(ins.error));
+    ST.pf = ins.data.id; await logOp('tuntas', 'kirim', 'life area Automotive', 1, 'ok', 'dibuat');
+    say('intAreaMsg', 'ok', 'Life area “Automotive” dibuat di Tuntas. Activity yang dikirim atau diperbarui berikutnya masuk ke sana; Activity yang sudah terkirim sebelumnya tidak diubah sampai dikirim ulang.');
+  }),
   status(sys){ const u = ST.user[sys], c = cfg(sys); return { on:!!u, email:(u && u.email) || '', hasCfg:!!(c.url && c.key) }; },
   async forget(sys){ const cl = client(sys); try{ if(cl) await cl.auth.signOut(); }catch(e){} ST.user[sys] = null; ST.pf = undefined; cfgSet(sys, { url:'', key:'', email:'' }); delete ST.clients[sys]; renderSettings(); renderSyncBar(); },
   save(sys){ const g = k => (($('int_' + sys + '_' + k) || {}).value || '').trim(); cfgSet(sys, { url:g('url').replace(/\/+$/, ''), key:g('key'), email:g('email') }); client(sys); say('intMsg_' + sys, 'ok', 'Pengaturan disimpan di perangkat ini (password tidak disimpan).'); },
@@ -17970,7 +17990,8 @@ const TYPES = [
   { t:'work_order', lv:2, label:'Sub-Activity', name:r => r.judul, code:r => r.nomor_wo },
   { t:'job_card',   lv:3, label:'Action',       name:r => r.judul, code:r => '' }
 ];
-const AREAS = [['', 'Choose area'], ['work', 'Work'], ['freelance', 'Freelance'], ['personal', 'Personal (never sent)']];
+const AREAS = [['', 'Choose area'], ['automotive', 'Automotive'], ['personal', 'Personal (never sent)']];
+const isAuto = a => a === 'automotive';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ST = { suggest:null, linkDraft:null, armed:false, loaded:false, loading:false, missing:false, link:null, pending:0, failed:[], items:[], vehicles:[], msg:null, busy:false, filter:'', onlyOn:true, urlDraft:null };
 
@@ -17978,10 +17999,10 @@ const ST = { suggest:null, linkDraft:null, armed:false, loaded:false, loading:fa
 function demoData(){
   ST.link = ST.link || { id: uuid(), function_url: '', connected: true, paused: false, default_kendaraan_id: null, last_sent_at: null, last_received_at: null, last_error: null };
   ST.items = ST.items.length ? ST.items : [
-    { t:'project',    id:'demo-1', nama:'Contoh: Persiapan audit bulanan', status:'proses', polaris_sync:true,  polaris_area:'work', polaris_origin:false },
-    { t:'work_order', id:'demo-2', judul:'Contoh: Kumpulkan data',        status:'open',   polaris_sync:true,  polaris_area:'work', polaris_origin:false, project_id:'demo-1' },
+    { t:'project',    id:'demo-1', nama:'Contoh: Servis berkala A03-Check', status:'proses', polaris_sync:true,  polaris_area:'automotive', polaris_origin:false },
+    { t:'work_order', id:'demo-2', judul:'Contoh: Ganti oli dan filter',        status:'open',   polaris_sync:true,  polaris_area:'automotive', polaris_origin:false, project_id:'demo-1' },
     { t:'job_card',   id:'demo-3', judul:'Contoh: Unduh laporan',         status:'belum',  polaris_sync:false, polaris_area:null,   polaris_origin:false, work_order_id:'demo-2' },
-    { t:'project',    id:'demo-4', nama:'Contoh: Servis pribadi',        status:'open',   polaris_sync:false, polaris_area:'personal', polaris_origin:false }
+    { t:'project',    id:'demo-4', nama:'Contoh: Perjalanan pribadi',        status:'open',   polaris_sync:false, polaris_area:'personal', polaris_origin:false }
   ];
   ST.vehicles = ST.vehicles.length ? ST.vehicles : [{ id:'demo-v', label:'Contoh kendaraan' }];
   ST.loaded = true;
@@ -18016,8 +18037,8 @@ async function load(){
 const fmtT = s => s ? new Date(s).toLocaleString('id-ID', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '–';
 function projUrl(){ try{ return (sb && (sb.supabaseUrl || sb.restUrl || '')).replace(/\/rest\/v1.*$/, '') || ''; }catch(e){ return ''; } }
 function sharedOk(it, byId){
-  if(!(it.polaris_sync && (it.polaris_area === 'work' || it.polaris_area === 'freelance'))) return false;
-  if(it.t === 'work_order'){ const p = byId.get(it.project_id); return !!(p && p.polaris_sync && (p.polaris_area === 'work' || p.polaris_area === 'freelance')); }
+  if(!(it.polaris_sync && isAuto(it.polaris_area))) return false;
+  if(it.t === 'work_order'){ const p = byId.get(it.project_id); return !!(p && p.polaris_sync && isAuto(p.polaris_area)); }
   if(it.t === 'job_card'){ const w = byId.get(it.work_order_id); return !!(w && sharedOk(w, byId)); }
   return true;
 }
@@ -18036,10 +18057,10 @@ function itemsTable(){
   const total = rows.length; rows = rows.slice(0, 120);
   const lab = t => TYPES.find(x => x.t === t).label;
   const body = rows.map(i => {
-    const ok = sharedOk(i, byId), canOn = i.polaris_area === 'work' || i.polaris_area === 'freelance';
-    const parentNote = !ok && i.polaris_sync && canOn ? '<span class="hint">induk belum disinkronkan → belum dikirim</span>' : ok ? '<span class="status-pill ok">dikirim</span>' : '<span class="status-pill muted">tidak dikirim</span>';
+    const ok = sharedOk(i, byId), canOn = i.polaris_area !== 'personal';
+    const parentNote = !ok && i.polaris_sync && !isAuto(i.polaris_area) ? '<span class="hint">area bukan Automotive → tidak dikirim</span>' : !ok && i.polaris_sync && canOn ? '<span class="hint">induk belum disinkronkan → belum dikirim</span>' : ok ? '<span class="status-pill ok">dikirim</span>' : '<span class="status-pill muted">tidak dikirim</span>';
     return `<tr><td>${esc(lab(i.t))}</td><td>${esc(i.nama || i.judul || '')}${i.polaris_origin ? ' <span class="status-pill muted">dari Polaris</span>' : ''}</td>
-      <td><select data-pol-area="${esc(i.t)}|${esc(i.id)}" onchange="AC6.polaris.setArea(this)" aria-label="Area">${AREAS.map(a => `<option value="${a[0]}" ${((i.polaris_area || '') === a[0]) ? 'selected' : ''}>${a[1]}</option>`).join('')}</select></td>
+      <td><select data-pol-area="${esc(i.t)}|${esc(i.id)}" onchange="AC6.polaris.setArea(this)" aria-label="Area">${AREAS.concat(i.polaris_area === 'work' || i.polaris_area === 'freelance' ? [[i.polaris_area, i.polaris_area + ' (lama, tidak dikirim)']] : []).map(a => `<option value="${a[0]}" ${((i.polaris_area || '') === a[0]) ? 'selected' : ''}>${a[1]}</option>`).join('')}</select></td>
       <td><label style="display:inline-flex;gap:6px;align-items:center;font-weight:normal;margin:0;"><input type="checkbox" style="width:auto;" ${i.polaris_sync ? 'checked' : ''} ${canOn ? '' : 'disabled'} onchange="AC6.polaris.setSync('${esc(i.t)}','${esc(i.id)}',this.checked)"> Sync with Polaris One</label></td><td>${parentNote}</td></tr>`;
   }).join('');
   return `<div style="margin:8px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;"><div class="field" style="margin:0;"><label for="polFilter">Search item</label><input id="polFilter" value="${esc(ST.filter)}" oninput="AC6.polaris.setFilter(this.value)"></div><label style="display:inline-flex;gap:6px;align-items:center;font-weight:normal;margin:0 0 8px;"><input type="checkbox" style="width:auto;" ${ST.onlyOn ? 'checked' : ''} onchange="AC6.polaris.setOnly(this.checked)"> Only items switched on</label></div>
@@ -18073,7 +18094,7 @@ function card(){
       <button type="button" class="ghost" onclick="AC6.polaris.setPaused(${l.paused ? 'false' : 'true'})">${l.paused ? 'Resume' : 'Pause'}</button>
       <button type="button" class="ghost" onclick="AC6.polaris.disconnect()">${l.connected ? 'Disconnect' : 'Reconnect'}</button></div>` : `<div class="row-actions" style="margin-top:8px;"><button type="button" class="primary" onclick="AC6.polaris.saveLink()" ${ST.missing ? 'disabled' : ''}>Create link</button></div>`;
   return `<div class="card-head"><h2>Polaris One — Activity &amp; Action</h2><span class="status-pill ${pk}">${pt}</span></div>
-    <p class="hint">Polaris One adalah pusat Activity &amp; Action; pusat Project Management tetap AltairOrdo. Altair Auto hanya bertukar Activity (Project → Sub-Activity) dan Action (Task) yang <strong>sengaja Anda aktifkan</strong> dengan area Work/Freelance. Data pribadi dan item yang tidak diaktifkan tidak pernah dikirim; penghapusan dari Polaris One hanya membatalkan item (status Cancelled), tidak menghapus data.</p>
+    <p class="hint">Polaris One adalah pusat Activity &amp; Action; pusat Project Management tetap AltairOrdo. Altair Auto hanya bertukar Activity (Project → Sub-Activity) dan Action (Task) yang <strong>sengaja Anda aktifkan</strong> dengan area Automotive (kontrak Rev 28). Data pribadi dan item yang tidak diaktifkan tidak pernah dikirim; penghapusan dari Polaris One hanya membatalkan item (status Cancelled), tidak menghapus data.</p>
     ${modeNote}${msg}
     ${ST.missing ? '' : `<div style="display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
       <div class="field" style="margin:0;"><label for="polUrl">Function address (Polaris One)</label><input id="polUrl" value="${esc(url)}" placeholder="https://&lt;polaris-project&gt;.supabase.co/functions/v1/polaris-hub" oninput="AC6.polaris.urlDraft(this.value)"></div>
@@ -18145,13 +18166,14 @@ const P = {
   },
   async setArea(el){
     const [t, id] = el.getAttribute('data-pol-area').split('|'); const area = el.value || null; const it = ST.items.find(x => x.id === id); if(!it) return;
-    const patch = { polaris_area: area }; if(area !== 'work' && area !== 'freelance') patch.polaris_sync = false;
+    const patch = { polaris_area: area }; if(!isAuto(area)) patch.polaris_sync = false;
     try{ if(hasDb()){ const r = await sb.from(t).update(patch).eq('id', id); if(r.error) return fail(r.error); } Object.assign(it, patch); render(); }catch(e){ fail(e); }
   },
   async setSync(t, id, on){
     const it = ST.items.find(x => x.id === id); if(!it) return;
-    if(on && !(it.polaris_area === 'work' || it.polaris_area === 'freelance')){ ST.msg = { k:'warn', t:'Pilih area Work atau Freelance dulu.' }; render(); return; }
-    try{ if(hasDb()){ const r = await sb.from(t).update({ polaris_sync: !!on }).eq('id', id); if(r.error) return fail(r.error); } it.polaris_sync = !!on; render(); }catch(e){ fail(e); }
+    if(on && it.polaris_area === 'personal'){ ST.msg = { k:'warn', t:'Item bertanda Personal tidak pernah dikirim. Ubah area ke Automotive dulu.' }; render(); return; }
+    const patch = { polaris_sync: !!on }; if(on && !isAuto(it.polaris_area)) patch.polaris_area = 'automotive';
+    try{ if(hasDb()){ const r = await sb.from(t).update(patch).eq('id', id); if(r.error) return fail(r.error); } Object.assign(it, patch); render(); }catch(e){ fail(e); }
   }
 };
 P.status = function(){ const [k, t] = statusPill(); return { k, t }; };
@@ -18840,9 +18862,9 @@ var CONNS = [
     forget:{ label:'Keluar dan hapus pengaturan', note:'Keluar dari Groundwork dan menghapus URL, key, dan email yang tersimpan di browser ini. Data di Groundwork tidak diubah.', run:function(){ if(window.INTUI && INTUI.forget) return INTUI.forget('groundwork'); } },
     stored:function(){ return storedInt('groundwork'); } },
   { id:'polaris', name:'Polaris One', mono:'PO', cat:'Activity', type:'Dua arah', status:polStatus,
-    desc:'Pusat Activity & Action. Hanya item yang sengaja Anda tandai (area Work atau Freelance) yang dikirim.',
+    desc:'Pusat Activity & Action. Hanya item yang sengaja Anda tandai dengan area Automotive yang dikirim.',
     caps:['Bertukar Activity (Project → Sub-Activity) dan Action (Task)','Event ditandatangani dengan rahasia bersama; semua kegagalan autentikasi dijawab 401 generik','Antrean dengan percobaan ulang untuk event yang gagal','Jeda dan putuskan kapan saja tanpa menghapus data lokal'],
-    access:['Hanya item dengan area Work/Freelance dan sinkron aktif yang dikirim','Rahasia bersama POLARIS_HUB_SECRET hanya sebagai environment secret di server; tidak pernah di browser, repositori, atau log','Data pribadi atau non-kerja tidak dikirim'],
+    access:['Hanya item berarea Automotive dengan sinkron aktif yang dikirim (kontrak Rev 28)','Rahasia bersama POLARIS_HUB_SECRET hanya sebagai environment secret di server; tidak pernah di browser, repositori, atau log','Data pribadi atau non-kerja tidak dikirim'],
     nodes:function(){ return [$('polarisCard')]; },
     extra:function(){ var l = null; try{ l = window.AC6 && AC6.polaris && AC6.polaris.info && AC6.polaris.info(); }catch(e){} if(!l) return ''; return '<div class="cx-kv"><div><span>Link ID (bukan rahasia)</span><code>' + esc(l.id || '(belum dibuat — buat di bagian Manage)') + '</code></div><div><span>Alamat hub di project ini</span><code>' + esc(l.hub || '–') + '</code></div></div><div class="cx-row"><button type="button" class="ghost" data-cx="copy-link">Salin Link ID</button><button type="button" class="ghost" data-cx="copy-hub">Salin alamat hub</button></div>'; },
     forget:{ label:'Putuskan (Disconnect)', note:'Memutus tautan: Polaris One akan mendapat 401 sampai Anda menyambungkannya lagi. Data lokal tetap utuh. Perlu klik dua kali.', run:function(){ if(window.AC6 && AC6.polaris && AC6.polaris.disconnect) return AC6.polaris.disconnect(); } },
