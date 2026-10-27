@@ -3,7 +3,7 @@
 const VERSION = '2026-10-25-r1';
 const SHELL = 'altair-auto-shell-' + VERSION;
 const RUNTIME = 'altair-auto-runtime-v1';
-const SHELL_FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon-180.png'];
+const SHELL_FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './maskable-512.png', './apple-touch-icon-180.png'];
 /* pustaka statis yang aman di-cache (skrip supabase-js, font) — bukan data pengguna */
 const CDN_HOSTS = ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
