@@ -1,0 +1,64 @@
+{
+  "redirects": [
+    {
+      "source": "/autoprima.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/aldebaracura.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/aldebarancura.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/identifikasi-kendaraan.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/AutoPrima.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/AldebaranCura.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/autoprima",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/aldebaracura",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/aldebarancura",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/identifikasi-kendaraan",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/AutoPrima",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/AldebaranCura",
+      "destination": "/index.html",
+      "permanent": true
+    }
+  ]
+}

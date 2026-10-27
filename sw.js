@@ -1,12 +1,12 @@
 /* Altair Auto — service worker (PWA). Naikkan VERSION setiap rilis agar cache cangkang diperbarui.
    Aturan: hanya GET; data database (supabase.co), API Tuntas/Groundwork, dan semua host lain TIDAK pernah di-cache atau dicegat. */
-const VERSION = '2026-10-27-r7';
+const VERSION = '2026-10-27-r9';
 const SHELL = 'altair-auto-shell-' + VERSION;
 const RUNTIME = 'altair-auto-runtime-v1';
 /* nama berkas/jalur lama (AutoPrima, AldebaranCura, versi awal) -> dialihkan ke cangkang aplikasi; query string ikut terbawa, fragmen (#...) dipertahankan oleh browser */
 const LEGACY_PATHS = ['autoprima', 'autoprima.html', 'aldebaracura', 'aldebaracura.html', 'aldebarancura', 'aldebarancura.html', 'identifikasi-kendaraan.html', 'identifikasi-kendaraan'];
 const LEGACY_CACHE_PREFIXES = ['autoprima', 'aldebaracura', 'aldebarancura', 'identifikasi'];
-const SHELL_FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './maskable-512.png', './apple-touch-icon-180.png'];
+const SHELL_FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './maskable-512.png', './apple-touch-icon-180.png', './apple-touch-icon.png'];
 /* pustaka statis yang aman di-cache (skrip supabase-js, font) — bukan data pengguna */
 const CDN_HOSTS = ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -35,7 +35,8 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin === self.location.origin) {
-    if (url.pathname.endsWith('/sw.js')) return;                       // biarkan browser memeriksa pembaruan SW sendiri
+    if (url.pathname.endsWith('/sw.js')) return;
+    if (url.pathname.endsWith('/config.js')) { e.respondWith(networkFirst(req)); return; }   /* konfigurasi koneksi opsional: selalu coba versi terbaru */                       // biarkan browser memeriksa pembaruan SW sendiri
     const last = decodeURIComponent(url.pathname.split('/').pop() || '').toLowerCase();
     if (req.mode === 'navigate' && LEGACY_PATHS.includes(last)) {
       const base = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1);
@@ -49,6 +50,11 @@ self.addEventListener('fetch', (e) => {
   /* host lain (Supabase, Tuntas, Groundwork, web impor, dst.): tidak dicegat sama sekali */
 });
 
+async function networkFirst(req) {
+  const cache = await caches.open(SHELL);
+  try { const res = await withTimeout(fetch(req), 4000); if (res && res.ok) cache.put(req, res.clone()); return res; }
+  catch (err) { return (await cache.match(req)) || new Response('', { status: 404 }); }
+}
 async function navigate(req) {
   const cache = await caches.open(SHELL);
   try {
