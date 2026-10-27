@@ -982,7 +982,7 @@
           <li><strong>Terima dari Tuntas</strong>: di halaman Work Order pilih <em>Terima Activity dari Tuntas</em>, atau <em>Tarik status &amp; progress</em> untuk menyamakan item yang sudah terhubung.</li>
           <li><strong>Kirim status ke Groundwork</strong>: di detail Project (butuh akses Edit di Groundwork).</li>
         </ol>
-        <p class="hint" style="margin-top:8px;"><strong>Hindari ganda:</strong> pilih satu arah untuk Work Order yang sama &mdash; konektor Tuntas &ldquo;AutoPrima&rdquo; yang menarik data dari database ini, <em>atau</em> tombol kirim dari Altair Auto.</p>
+        <p class="hint" style="margin-top:8px;"><strong>Hindari ganda:</strong> pilih satu arah untuk Work Order yang sama &mdash; konektor bawaan Tuntas yang menarik data dari database ini, <em>atau</em> tombol kirim dari Altair Auto.</p>
       </div>
     </details>
     <details class="doc-section">
@@ -3173,7 +3173,7 @@ alter table polaris_rate enable row level security;
 
 notify pgrst, 'reload schema';</pre>
             <button class="copy-btn" onclick="copySqlPolarisHub()">Copy SQL</button>
-            <div class="hint" style="margin-top:8px;">Aman dijalankan berulang; tidak menghapus atau menulis ulang data yang ada. Unduh backup dulu (Settings &rarr; Backup). Rollback: <code>polaris-hub/sql/rollback_polaris_hub_1.sql</code> (hanya menghapus metadata Polaris). Tanpa langkah ini kartu &ldquo;Polaris One&rdquo; di Settings hanya menampilkan peringatan. Fungsi Edge <code>cura-hub</code> / <code>cura-hub-push</code> dan rahasia <code>POLARIS_HUB_SECRET</code> dipasang terpisah di server (lihat kartu Polaris One &rarr; Cara memasang).</div>
+            <div class="hint" style="margin-top:8px;">Aman dijalankan berulang; tidak menghapus atau menulis ulang data yang ada. Unduh backup dulu (Settings &rarr; Backup). Rollback: <code>polaris-hub/sql/rollback_polaris_hub_1.sql</code> (hanya menghapus metadata Polaris). Tanpa langkah ini kartu &ldquo;Polaris One&rdquo; di Settings hanya menampilkan peringatan. Fungsi Edge <code>altair-hub</code> / <code>altair-hub-push</code> (nama lama <code>cura-hub</code> tetap dikenali sebagai alias) dan rahasia <code>POLARIS_HUB_SECRET</code> dipasang terpisah di server (lihat kartu Polaris One &rarr; Cara memasang).</div>
           </li>
           <li>Akun, peran Admin, dan fasilitas per user: tabel app_profile dan app_admin_email, fungsi app_*, trigger pendaftaran, RLS profil. Pembatasan tabel data per fasilitas bersifat opsional (berkas rls_fasilitas_optin.sql).
             <pre class="sql" id="sqlBlockAkunAdmin">-- =====================================================================
@@ -3368,11 +3368,11 @@ notify pgrst, 'reload schema';
         </ol>
         <div class="field">
           <label for="sbUrl">Project URL</label>
-          <input id="sbUrl" type="text" value="https://tpsdnrcsjpmtxeodkeyl.supabase.co" placeholder="https://xxxxxxxx.supabase.co">
+          <input id="sbUrl" type="text" value="" placeholder="https://xxxxxxxx.supabase.co">
         </div>
         <div class="field">
           <label for="sbKey">Publishable / anon key</label>
-          <input id="sbKey" type="text" value="sb_publishable_vwfKfUbYjOsCyGCPj4ZAfw_JEJ1MzWi" placeholder="sb_publishable_... atau eyJhbGciOi...">
+          <input id="sbKey" type="text" value="" placeholder="sb_publishable_... atau eyJhbGciOi...">
         </div>
         <div class="row-actions">
           <button class="primary" onclick="saveConnection()">Save &amp; Connect</button>
@@ -5878,7 +5878,8 @@ Dimensi
             <tr><td class="mono">2026-09-27</td><td>Ditambahkan navigasi Home / Support pada aplikasi, dengan Support menampilkan ringkasan Konsep Aplikasi langsung di dalam Altair Auto.</td></tr>
             <tr><td class="mono">2026-09-27</td><td>Pratinjau tiap tahap pengembangan disimulasikan sebagai Artifact di Claude (data contoh); versi terhubung database tetap file terpisah.</td></tr>
             <tr><td class="mono">2026-09-27</td><td>Modul Identifikasi Kendaraan menjadi dashboard board per kategori dengan aksi Input Baru, Edit Data, Hapus Data.</td></tr>
-            <tr><td class="mono">2026-09-27</td><td>Aplikasi diberi nama AutoPrima, dihubungkan ke project Supabase pengguna.</td></tr>
+            <tr><td class="mono">2026-09-27</td><td>Aplikasi pertama kali dibuat dan dihubungkan ke project Supabase pengguna.</td></tr>
+            <tr><td class="mono">2026-10-26</td><td>Nama resmi aplikasi: <strong>Altair Auto</strong> (sebelumnya AutoPrima, lalu AldebaranCura). Tautan, berkas backup, dan data berpenanda nama lama tetap dikenali.</td></tr>
           </table>
           <p class="hint" style="margin-top:8px;">Versi lengkap &amp; terbaru dari riwayat ini ada di dokumen Konsep Aplikasi (Claude Docs).</p>
         </div>
@@ -6286,7 +6287,7 @@ function downloadAllSetupSql(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'autoprima_setup_database_lengkap.sql';
+  a.download = 'altair_auto_setup_database_lengkap.sql';
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -13973,7 +13974,7 @@ const TABLES = ['kendaraan', 'work_order', 'job_card', 'project', 'project_item'
 const BK = { last:null, msg:null, busy:false, pending:null, auth:null };
 async function sha256(txt){ try{ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join(''); }catch(e){ return 'tidak tersedia'; } }
 async function collect(){
-  const out = { app:'AldebaranCura', format:1, exported_at:new Date().toISOString(), tables:{}, errors:{} };
+  const out = { app:'Altair Auto', format:1, exported_at:new Date().toISOString(), tables:{}, errors:{} };
   if(REAL && typeof sb !== 'undefined' && sb){
     for(const t of TABLES){
       let all = [], from = 0, err = null;
@@ -14007,7 +14008,7 @@ const backup = {
     const f = inp.files && inp.files[0]; if(!f) return;
     try{
       const txt = await f.text(), d = JSON.parse(txt);
-      if(!d || (d.app !== 'AldebaranCura' && d.app !== 'Altair Auto') || !d.tables) throw new Error('Bukan file backup Altair Auto.');
+      if(!d || !/^(altair auto|aldebaran ?cura|aldebaracura|autoprima)$/i.test(String(d.app || '').replace(/\s+/g, ' ').trim()) || !d.tables) throw new Error('Bukan file backup Altair Auto.');
       const counts = Object.keys(d.tables).map(k => k + ': ' + (Array.isArray(d.tables[k]) ? d.tables[k].length : '?'));
       BK.pending = { d, name:f.name, sha:await sha256(txt), counts };
       BK.msg = { k:'warn', t:'File dibaca. Periksa ringkasan lalu ketik RESTORE untuk melanjutkan.' };
@@ -16710,8 +16711,8 @@ const STATUS_LABEL = { open:'Not Started', proses:'In Progress', tunda:'On Hold'
 
 /* ---------- konfigurasi (di perangkat ini; password TIDAK pernah disimpan) ---------- */
 const DEF = {
-  tuntas: { url:'https://bgpfulyzihoddgirkjim.supabase.co', key:'sb_publishable_wFy-BzZRALPkAiuDhk6nKQ_VtcYflLb', email:'' },
-  groundwork: { url:'https://rxvrgipuokibbfvtghbo.supabase.co', key:'sb_publishable_5Ji4aP_XRsfIrm23muNt0w_E3B11d0g', email:'' }
+  tuntas: { url:'', key:'', email:'' },
+  groundwork: { url:'', key:'', email:'' }
 };
 function cfgRaw(){ try{ return JSON.parse(lsGet('ik_int_cfg') || '{}') || {}; }catch(e){ return {}; } }
 function cfg(sys){ return Object.assign({}, DEF[sys], cfgRaw()[sys] || {}); }
@@ -16823,6 +16824,13 @@ async function tuntasEnsureProject(p, cl){
   await setLink('project', p.id, 'tuntas', 'projects', ins.data.id, ins.data.code || row.code, 'kirim');
   return ins.data.id;
 }
+/* Penanda teknis pada data Tuntas (BUKAN nama tampilan). Nilai aktif WIRE_ID dipertahankan 'aldebaracura' agar konektor/anggaran di VEGA TEMPUS
+   (yang memfilter source/ext_key itu) tidak terputus. Setelah VEGA TEMPUS memakai prompt pembaruan terbaru (menerima 'altairauto' dan 'aldebaracura'),
+   cukup ganti WIRE_ID menjadi 'altairauto': pembacaan selalu mengenali keduanya dan baris lama dimigrasi saat berikutnya diperbarui. */
+const WIRE_ID = 'aldebaracura', WIRE_IDS = ['altairauto', 'aldebaracura'];
+const wireKey = (s) => WIRE_ID + ':' + s;
+const wireKeys = (s) => WIRE_IDS.map(i => i + ':' + s);
+const isWireKey = (k) => WIRE_IDS.some(i => String(k || '').indexOf(i + ':') === 0);
 async function tuntasSendWO(wo, cl){
   const v = vehicleById(wo.kendaraan_id), proj = wo.project_id ? ST.projects.find(p => p.id === wo.project_id) : null;
   const remoteProj = proj ? await tuntasEnsureProject(proj, cl) : null;
@@ -16838,14 +16846,14 @@ async function tuntasSendWO(wo, cl){
   };
   const pf = await tuntasPortfolio(cl); if(pf) row.portfolio_id = pf;
   if(remoteProj) row.project_id = remoteProj;
-  const ek = 'aldebaracura:wo:' + wo.id;
+  const ek = wireKey('wo:' + wo.id);
   let lk = linkOf('wo', wo.id, 'tuntas'), rid = lk ? lk.remote_id : null, created = false;
   if(!rid){
-    try{ const ex = await cl.from('activities').select('id,code').eq('ext_key', ek).limit(1); if(!ex.error && ex.data && ex.data[0]) rid = ex.data[0].id; }catch(e){}
+    try{ const ex = await cl.from('activities').select('id,code').in('ext_key', wireKeys('wo:' + wo.id)).limit(1); if(!ex.error && ex.data && ex.data[0]) rid = ex.data[0].id; }catch(e){}
   }
   let data = null;
   if(rid){
-    const r = await tryWrite(x => cl.from('activities').update(x).eq('id', rid).select().single(), row);
+    const r = await tryWrite(x => cl.from('activities').update(x).eq('id', rid).select().single(), Object.assign({ ext_key:ek }, row));
     if(!r.error && r.data) data = r.data; else if(ambiguous(r)) throw AMBIG('Activity "' + wo.judul + '"', r); else rid = null;
   }
   if(!rid){
@@ -16864,14 +16872,14 @@ async function tuntasSendJC(j, wo, actId, cl){
     planned_min:j.planned_min != null ? Number(j.planned_min) : null, actual_min:j.actual_min != null ? Number(j.actual_min) : null,
     status:JC_TO_T[j.status] || 'Not Started', progress:eff, result:j.hasil || null, blocker:j.kendala || null, next_action:j.tindakan_lanjut || null, time_cat:'Work'
   };
-  const ek = 'aldebaracura:jc:' + j.id;
+  const ek = wireKey('jc:' + j.id);
   let lk = linkOf('task', j.id, 'tuntas'), rid = lk ? lk.remote_id : null, created = false;
   if(!rid){
-    try{ const ex = await cl.from('daily_actions').select('id,code').eq('ext_key', ek).limit(1); if(!ex.error && ex.data && ex.data[0]) rid = ex.data[0].id; }catch(e){}
+    try{ const ex = await cl.from('daily_actions').select('id,code').in('ext_key', wireKeys('jc:' + j.id)).limit(1); if(!ex.error && ex.data && ex.data[0]) rid = ex.data[0].id; }catch(e){}
   }
   let data = null;
   if(rid){
-    const r = await tryWrite(x => cl.from('daily_actions').update(x).eq('id', rid).select().single(), row);
+    const r = await tryWrite(x => cl.from('daily_actions').update(x).eq('id', rid).select().single(), Object.assign({ ext_key:ek }, row));
     if(!r.error && r.data) data = r.data; else if(ambiguous(r)) throw AMBIG('Action "' + j.judul + '"', r); else rid = null;
   }
   if(!rid){
@@ -16961,7 +16969,7 @@ async function rcvLoad(boxId){
   const r = await cl.from('activities').select('*').order('created_at', { ascending:false }).limit(300);
   if(r.error){ ST.rcv.rows = []; renderSyncBar(); say(boxId, 'err', 'Activity Tuntas: ' + errText(r.error)); return; }
   const have = new Set(ST.links.filter(l => l.sistem === 'tuntas' && l.entitas === 'wo').map(l => String(l.remote_id)));
-  ST.rcv.rows = (r.data || []).filter(x => !have.has(String(x.id)) && String(x.ext_key || '').indexOf('aldebaracura:') !== 0);
+  ST.rcv.rows = (r.data || []).filter(x => !have.has(String(x.id)) && !isWireKey(x.ext_key));
   renderSyncBar();
 }
 async function rcvImport(boxId){
@@ -17239,7 +17247,7 @@ async function tuntasSendCost(wo, cl){
     instrument:'Kendaraan · ' + (v ? vLabel(v) : '') + ' · ' + (COST_CAT[cat] || cat), action:'Other', amount, currency:'IDR',
     notes:['Altair Auto ' + (wo.nomor_wo || ''), wo.judul, 'Part Rp' + (Number(wo.biaya_part) || 0).toLocaleString('id-ID') + ' · Jasa Rp' + (Number(wo.biaya_jasa) || 0).toLocaleString('id-ID')].filter(Boolean).join(' · '),
     strategy:cat,
-    source:'aldebaracura', vehicle:v ? vLabel(v) : null, plate:v ? (v.plat_nomor || null) : null, cost_category:cat, wo_code:wo.nomor_wo || null, ext_key:'aldebaracura:cost:' + wo.id
+    source:WIRE_ID, vehicle:v ? vLabel(v) : null, plate:v ? (v.plat_nomor || null) : null, cost_category:cat, wo_code:wo.nomor_wo || null, ext_key:wireKey('cost:' + wo.id)
   };
   const lk = linkOf('cost', wo.id, 'tuntas');
   if(lk){
@@ -17264,7 +17272,7 @@ async function tuntasDropCost(wo, cl){
 async function tuntasSendBudget(b, cl){
   const v = vehicleById(b.kendaraan_id);
   const annual = Number(b.jumlah || 0) * (b.frekuensi === 'bulanan' ? 12 : 1);
-  const row = { vehicle:v ? vLabel(v) : null, plate:v ? (v.plat_nomor || null) : null, category:b.kategori, frequency:b.frekuensi, amount:Number(b.jumlah) || 0, annual_amount:annual, currency:'IDR', notes:b.catatan || null, source:'aldebaracura', ext_key:'aldebaracura:budget:' + b.id };
+  const row = { vehicle:v ? vLabel(v) : null, plate:v ? (v.plat_nomor || null) : null, category:b.kategori, frequency:b.frekuensi, amount:Number(b.jumlah) || 0, annual_amount:annual, currency:'IDR', notes:b.catatan || null, source:WIRE_ID, ext_key:wireKey('budget:' + b.id) };
   const lk = linkOf('budget', b.id, 'tuntas');
   if(lk){
     const r = await tryWrite(x => cl.from('vehicle_budgets').update(x).eq('id', lk.remote_id).select().single(), row);
@@ -17284,7 +17292,7 @@ async function tuntasSendInspection(s, items, cl){
     remarks:['Altair Auto inspeksi', 'Hasil: ' + (s.hasil_umum || '-'), s.km_saat_inspeksi != null ? 'KM ' + s.km_saat_inspeksi : '', s.catatan_umum || ''].filter(Boolean).join(' · ')
   };
   const pf = await tuntasPortfolio(cl); if(pf) row.portfolio_id = pf;
-  const ek = 'aldebaracura:insp:' + s.id;
+  const ek = wireKey('insp:' + s.id);
   const lk = linkOf('inspeksi', s.id, 'tuntas'); let rid = lk ? lk.remote_id : null, data = null;
   if(rid){ const r = await tryWrite(x => cl.from('activities').update(x).eq('id', rid).select().single(), row); if(!r.error && r.data) data = r.data; else if(ambiguous(r)) throw AMBIG('Inspeksi', r); else rid = null; }
   if(!rid){
@@ -17298,7 +17306,7 @@ async function tuntasSendInspection(s, items, cl){
     const ilk = linkOf('inspeksi_item', it.id, 'tuntas'); let ok = false;
     if(ilk){ const r = await tryWrite(x => cl.from('daily_actions').update(x).eq('id', ilk.remote_id).select().single(), Object.assign({}, arow, { status:undefined, progress:undefined })); ok = !r.error; if(!ok && ambiguous(r)) continue; }
     if(!ok){
-      const ins = await tryWrite(x => cl.from('daily_actions').insert(x).select().single(), Object.assign({ ext_key:'aldebaracura:insi:' + it.id }, arow));
+      const ins = await tryWrite(x => cl.from('daily_actions').insert(x).select().single(), Object.assign({ ext_key:wireKey('insi:' + it.id) }, arow));
       if(!ins.error && ins.data) await setLink('inspeksi_item', it.id, 'tuntas', 'daily_actions', ins.data.id, ins.data.code || null, 'kirim');
     }
   }
@@ -17457,7 +17465,7 @@ function renderSettings(){
   const logs = ST.logs.slice(0, 12);
   box.innerHTML = sysCard('tuntas') + sysCard('groundwork') + '<div id="intSyncBar"></div><div id="intGwBox"></div>' + `
   <div class="card"><div class="card-head"><h2>Tuntas membaca Altair Auto</h2></div>
-    <p class="hint">Arah sebaliknya: Tuntas punya konektor bawaan &ldquo;AutoPrima&rdquo; yang membaca tabel <code>work_order</code> (→ Activity) dan <code>job_card</code> (→ Action) dari database Supabase Anda. Nama tabel tidak diubah, jadi konektor tetap bekerja.</p>
+    <p class="hint">Arah sebaliknya: Tuntas punya konektor bawaan untuk Altair Auto yang membaca tabel <code>work_order</code> (→ Activity) dan <code>job_card</code> (→ Action) dari database Supabase Anda. Nama tabel tidak diubah, jadi konektor tetap bekerja.</p>
     <div class="field"><label>URL database Altair Auto ini</label><input readonly value="${esc(own || '(belum terhubung — isi di “Hubungkan ke Database”)')}" onfocus="this.select()"></div>
     <div class="table-scroll"><table class="reftable"><thead><tr><th>Tabel Altair Auto</th><th>Jadi di Tuntas</th><th>Kolom penting</th></tr></thead><tbody>
       <tr><td><code>work_order</code> (WO)</td><td>Activity</td><td>judul→name · status · prioritas→priority · planned_start · tanggal_target→planned_finish · est_hours · actual_hours · progress</td></tr>
@@ -18073,9 +18081,19 @@ function failedTable(){
     return `<tr><td>${esc(nm)}</td><td>${esc(f.kind)}</td><td>${f.attempts}</td><td class="hint">${esc(f.last_error || '')}</td><td><button type="button" class="ghost" onclick="AC6.polaris.retry('${esc(f.id)}')">Retry</button></td></tr>`;
   }).join('')}</tbody></table></div>`;
 }
+/* panggil fungsi dorong: nama baru dulu; bila belum ada (404) pakai alias nama lama */
+async function pushFn(){
+  const r = await sb.functions.invoke('altair-hub-push', { body:{} });
+  const st = r.error && r.error.context && r.error.context.status;
+  if(r.error && (st === 404 || /not.?found/i.test(String(r.error.message || '')))){
+    const r2 = await sb.functions.invoke('cura-hub-push', { body:{} });
+    if(!r2.error) return r2;
+  }
+  return r;
+}
 function card(){
   const l = ST.link, [pk, pt] = statusPill();
-  const hubBase = (projUrl() || 'https://<your-altair-auto-project>.supabase.co') + '/functions/v1/cura-hub';
+  const hubBase = (projUrl() || 'https://<your-altair-auto-project>.supabase.co') + '/functions/v1/altair-hub';
   const linkVal = ST.linkDraft != null ? ST.linkDraft : (l ? l.id : (ST.suggest = ST.suggest || uuid()));
   const url = ST.urlDraft != null ? ST.urlDraft : (l && l.function_url) || '';
   const veh = `<select id="polVeh" aria-label="Default vehicle"><option value="">(none)</option>${ST.vehicles.map(v => `<option value="${esc(v.id)}" ${l && l.default_kendaraan_id === v.id ? 'selected' : ''}>${esc(v.label)}</option>`).join('')}</select>`;
@@ -18084,7 +18102,8 @@ function card(){
   const setup = `<details style="margin-top:10px;"><summary>Cara memasang (dijalankan oleh pemilik; tidak ada yang dijalankan otomatis)</summary>
     <ol class="hint" style="margin:8px 0 0 18px;">
       <li>Jalankan SQL langkah 40 di Supabase SQL Editor (bagian Setup Database; migrasi aditif, ada catatan rollback).</li>
-      <li>Deploy fungsi: <code>supabase functions deploy cura-hub --no-verify-jwt --project-ref &lt;ref&gt;</code> dan <code>supabase functions deploy cura-hub-push --project-ref &lt;ref&gt;</code></li>
+      <li>Deploy fungsi: <code>supabase functions deploy altair-hub --no-verify-jwt --project-ref &lt;ref&gt;</code> dan <code>supabase functions deploy altair-hub-push --project-ref &lt;ref&gt;</code></li>
+      <li>Bila Polaris One masih memakai alamat lama <code>…/functions/v1/cura-hub</code>, jangan putuskan: deploy kode yang sama juga dengan nama lama (<code>cura-hub --no-verify-jwt</code> dan <code>cura-hub-push</code>) sebagai alias, lalu pindahkan Polaris One ke alamat baru kapan pun siap dan hapus alias setelahnya.</li>
       <li>Pasang rahasia bersama (satu nilai, 32+ karakter, sama dengan di Polaris One) — <strong>jangan diketik di halaman ini</strong>:<pre class="sql" style="margin:6px 0;">supabase secrets set POLARIS_HUB_SECRET=&lt;paste-the-shared-secret&gt; --project-ref &lt;ref&gt;</pre></li>
       <li>Beri Polaris One alamat dasar ini (dan Link ID di atas): <code>${esc(hubBase)}</code></li>
       <li>Rotasi rahasia: set <code>POLARIS_HUB_SECRET_PREVIOUS</code> = nilai lama, <code>POLARIS_HUB_SECRET</code> = nilai baru, ubah di Polaris One, lalu hapus <code>POLARIS_HUB_SECRET_PREVIOUS</code>.</li>
@@ -18155,8 +18174,8 @@ const P = {
     ST.busy = true; render();
     try{
       if(!hasDb()){ ST.msg = { k:'warn', t:'Mode contoh: tidak ada yang dikirim.' }; ST.busy = false; render(); return; }
-      const r = await sb.functions.invoke('cura-hub-push', { body:{} });
-      if(r.error){ ST.msg = { k:'err', t:'Sync gagal: ' + (r.error.message || 'fungsi cura-hub-push belum di-deploy') }; }
+      const r = await pushFn();
+      if(r.error){ ST.msg = { k:'err', t:'Sync gagal: ' + (r.error.message || 'fungsi altair-hub-push belum di-deploy') }; }
       else { const d = r.data || {}; ST.msg = { k: d.status === 'ok' ? 'ok' : 'warn', t:`Sync: ${d.status || '?'} · terkirim ${d.sent || 0} · dilewati ${d.skipped || 0} · diulang ${d.retry || 0} · gagal ${d.failed || 0} · parked ${d.parked || 0}` }; }
       ST.busy = false; await refresh();
     }catch(e){ fail(e); }
@@ -18177,7 +18196,7 @@ const P = {
   }
 };
 P.status = function(){ const [k, t] = statusPill(); return { k, t }; };
-P.info = function(){ return { id: ST.link ? ST.link.id : '', hub: (projUrl() || '') + '/functions/v1/cura-hub' }; };
+P.info = function(){ return { id: ST.link ? ST.link.id : '', hub: (projUrl() || '') + '/functions/v1/altair-hub' }; };
 A.polaris = P;
 
 /* sisipkan kartu setelah Settings dirender */
@@ -18186,7 +18205,7 @@ A.settings.render = function(){ const out = orig.apply(this, arguments); try{ mo
 const origShow = A.settings.onShow;
 A.settings.onShow = async function(){ ST.loaded = false; ST.msg = null; ST.linkDraft = null; ST.urlDraft = null; const out = origShow ? await origShow.apply(this, arguments) : undefined; try{ await load(); render(); }catch(e){} return out; };
 
-/* dorongan ringan: bila ada antrean menunggu dan tautan aktif, panggil cura-hub-push tiap 2 menit saat tab terlihat (hanya item yang sengaja diaktifkan masuk antrean) */
+/* dorongan ringan: bila ada antrean menunggu dan tautan aktif, panggil altair-hub-push tiap 2 menit saat tab terlihat (hanya item yang sengaja diaktifkan masuk antrean) */
 setInterval(async () => {
     try{
       if(!hasDb() || document.hidden || ST.missing) return;
@@ -18194,7 +18213,7 @@ setInterval(async () => {
       if(l.error){ ST.missing = true; return; }
       const k = l.data && l.data[0]; if(!k || !k.connected || k.paused || !k.function_url) return;
       const c = await sb.from('polaris_outbox').select('id', { count:'exact', head:true }).eq('status', 'pending').lte('next_attempt_at', new Date().toISOString());
-      if(c.count > 0) await sb.functions.invoke('cura-hub-push', { body:{} });
+      if(c.count > 0) await pushFn();
     }catch(e){}
   }, 120000);
 })();
@@ -19230,6 +19249,203 @@ if(A){ A.pwa = P;
   if(A.settings && A.settings.render){ const o = A.settings.render; A.settings.render = function(){ const out = o.apply(this, arguments); try{ mount(); }catch(e){} return out; }; } }
 offlineBar();
 register();
+})();
+
+</script>
+<script id="ssxScript">
+/* Altair Auto \u2014 pencarian ketik untuk SEMUA option box (<select>).
+   Tidak mengganti elemen: <select> asli tetap ada, nilainya tetap dibaca/ditulis oleh kode lama, dan event input/change tetap
+   dikirim seperti biasa. Satu modul, satu set listener pada document, jadi select yang dibuat belakangan (render ulang) otomatis ikut.
+   Lewati: <select multiple>, size>1, disabled, atau atribut data-nosearch. */
+(function(){
+  'use strict';
+  if (window.SelectSearch) return;
+  var MAXROWS = 300, UID = 'ssx';
+  var css = [
+    '.ssx{position:fixed;z-index:2147483000;box-sizing:border-box;display:flex;flex-direction:column;background:var(--surface,#fff);color:var(--text,#161f29);border:1px solid var(--border,#d8dee5);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.22);overflow:hidden;font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}',
+    '.ssx *{box-sizing:border-box}',
+    '.ssx-bar{padding:8px;border-bottom:1px solid var(--border,#d8dee5);background:var(--surface,#fff)}',
+    '.ssx-in{width:100%;margin:0;padding:8px 10px;border:1px solid var(--border,#d8dee5);border-radius:8px;background:var(--bg,#fff);color:var(--text,#161f29);font:inherit;font-size:14px;outline:none}',
+    '.ssx-in:focus{border-color:var(--accent,#0a6280);box-shadow:0 0 0 2px var(--accent-soft,#e3f1f5)}',
+    '.ssx-list{list-style:none;margin:0;padding:4px;overflow:auto;flex:1 1 auto;overscroll-behavior:contain}',
+    '.ssx-opt{padding:8px 10px;border-radius:7px;cursor:pointer;overflow-wrap:anywhere}',
+    '.ssx-opt[aria-selected="true"]{font-weight:600}',
+    '.ssx-opt[aria-selected="true"]::after{content:" \\2713";color:var(--accent,#0a6280)}',
+    '.ssx-opt.ssx-act{background:var(--accent-soft,#e3f1f5);outline:1px solid var(--accent,#0a6280)}',
+    '.ssx-opt[aria-disabled="true"]{opacity:.45;cursor:not-allowed}',
+    '.ssx-grp{padding:8px 10px 3px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim,#57636f);font-weight:600}',
+    '.ssx-opt mark{background:transparent;color:inherit;font-weight:700;text-decoration:underline;text-decoration-color:var(--accent,#0a6280);text-underline-offset:2px}',
+    '.ssx-none{padding:14px 10px;color:var(--text-dim,#57636f)}',
+    '.ssx-foot{padding:5px 10px;border-top:1px solid var(--border,#d8dee5);font-size:11px;color:var(--text-dim,#57636f)}',
+    '@media (max-width:600px){.ssx-in{font-size:16px}.ssx-opt{padding:11px 10px}}',
+    '@media (prefers-reduced-motion:no-preference){.ssx{animation:ssxin .08s ease-out}@keyframes ssxin{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}}'
+  ].join('\n');
+  var st = document.createElement('style'); st.id = UID + 'Style'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
+
+  var S = null;   /* keadaan popup yang terbuka: { sel, root, input, list, foot, rows, act, q, opts, narrow } */
+  var lastTouch = 0, ts = null;
+
+  function norm(s){ s = String(s == null ? '' : s).toLowerCase(); try { s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {} return s; }
+  function eligible(el){
+    return !!el && el.nodeType === 1 && el.tagName === 'SELECT' && !el.multiple && !(el.size > 1) && !el.disabled &&
+      !el.hasAttribute('data-nosearch') && !(el.closest && el.closest('[data-nosearch]'));
+  }
+  function readOptions(sel){
+    var out = [], i, o, g;
+    for (i = 0; i < sel.options.length; i++) {
+      o = sel.options[i]; if (o.hidden) continue;
+      g = o.parentNode && o.parentNode.tagName === 'OPTGROUP' ? o.parentNode.label || '' : '';
+      var t = (o.text || '').replace(/\s+/g, ' ').trim();
+      out.push({ i: i, text: t || (o.value ? o.value : '(kosong)'), group: g, disabled: o.disabled || (o.parentNode && o.parentNode.disabled), n: norm(t + ' ' + g + ' ' + o.value), sel: i === sel.selectedIndex });
+    }
+    return out;
+  }
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function hilite(node, text, toks){
+    /* tandai potongan yang cocok pada teks asli (tanpa innerHTML) */
+    if (!toks.length) { node.textContent = text; return; }
+    var low = norm(text), ranges = [], k, p, tk;
+    if (low.length !== text.length) { node.textContent = text; return; }   /* normalisasi mengubah panjang: lewati penanda */
+    for (k = 0; k < toks.length; k++) { tk = toks[k]; p = low.indexOf(tk); if (p >= 0) ranges.push([p, p + tk.length]); }
+    if (!ranges.length) { node.textContent = text; return; }
+    ranges.sort(function (a, b) { return a[0] - b[0]; });
+    var merged = [ranges[0].slice()];
+    for (k = 1; k < ranges.length; k++) { var last = merged[merged.length - 1]; if (ranges[k][0] <= last[1]) last[1] = Math.max(last[1], ranges[k][1]); else merged.push(ranges[k].slice()); }
+    var pos = 0; node.textContent = '';
+    merged.forEach(function (r) { if (r[0] > pos) node.appendChild(document.createTextNode(text.slice(pos, r[0]))); var m = document.createElement('mark'); m.textContent = text.slice(r[0], r[1]); node.appendChild(m); pos = r[1]; });
+    if (pos < text.length) node.appendChild(document.createTextNode(text.slice(pos)));
+  }
+
+  function render(keepAct){
+    var q = norm(S.input.value).trim(), toks = q ? q.split(/\s+/) : [], list = S.list, matches = [], j, o;
+    for (j = 0; j < S.opts.length; j++) { o = S.opts[j]; if (toks.every(function (t) { return o.n.indexOf(t) >= 0; })) matches.push(o); }
+    S.matches = matches; list.textContent = ''; S.rows = [];
+    var shown = matches.slice(0, MAXROWS), lastG = null, firstSel = -1, idx = 0;
+    shown.forEach(function (m) {
+      if (m.group && m.group !== lastG) { var h = el('li', 'ssx-grp', m.group); h.setAttribute('role', 'presentation'); list.appendChild(h); }
+      lastG = m.group;
+      var li = el('li', 'ssx-opt'); li.id = UID + '-o' + m.i; li.setAttribute('role', 'option'); li.setAttribute('aria-selected', m.sel ? 'true' : 'false'); li.dataset.i = String(m.i);
+      if (m.disabled) li.setAttribute('aria-disabled', 'true');
+      hilite(li, m.text, toks); list.appendChild(li); S.rows.push(li); if (m.sel && firstSel < 0) firstSel = idx; idx++;
+    });
+    if (!shown.length) { var n = el('li', 'ssx-none', q ? 'Tidak ada hasil untuk \u201c' + S.input.value.trim() + '\u201d' : 'Tidak ada opsi'); n.setAttribute('role', 'presentation'); list.appendChild(n); }
+    S.foot.textContent = matches.length > MAXROWS ? 'Menampilkan ' + MAXROWS + ' dari ' + matches.length + ' \u2014 persempit pencarian' : (q ? matches.length + ' dari ' + S.opts.length + ' opsi' : S.opts.length + ' opsi');
+    var want = keepAct && S.act >= 0 && S.act < S.rows.length ? S.act : (q ? firstEnabled(0) : (firstSel >= 0 ? firstSel : firstEnabled(0)));
+    setAct(want, true);
+  }
+  function firstEnabled(from){ for (var k = from; k < S.rows.length; k++) if (S.rows[k].getAttribute('aria-disabled') !== 'true') return k; return S.rows.length ? 0 : -1; }
+  function setAct(k, scroll){
+    if (S.act >= 0 && S.rows[S.act]) S.rows[S.act].classList.remove('ssx-act');
+    S.act = k;
+    if (k >= 0 && S.rows[k]) { S.rows[k].classList.add('ssx-act'); S.input.setAttribute('aria-activedescendant', S.rows[k].id); if (scroll) S.rows[k].scrollIntoView({ block: 'nearest' }); }
+    else S.input.removeAttribute('aria-activedescendant');
+  }
+  function move(d){
+    if (!S.rows.length) return; var k = S.act, n = S.rows.length, c = 0;
+    do { k = (k + d + n) % n; c++; } while (S.rows[k].getAttribute('aria-disabled') === 'true' && c <= n);
+    setAct(k, true);
+  }
+  function place(){
+    if (!S) return; var r = S.sel.getBoundingClientRect(), vv = window.visualViewport, vw = vv ? vv.width : window.innerWidth, vh = vv ? vv.height : window.innerHeight, ox = vv ? vv.offsetLeft : 0, oy = vv ? vv.offsetTop : 0, root = S.root;
+    S.narrow = vw <= 600;
+    if (S.narrow) {
+      root.style.left = (ox + 8) + 'px'; root.style.right = 'auto'; root.style.width = (vw - 16) + 'px'; root.style.top = (oy + 8) + 'px'; root.style.bottom = 'auto'; root.style.maxHeight = Math.min(vh * 0.8, vh - 16) + 'px';
+      return;
+    }
+    var w = Math.min(Math.max(r.width, 280), vw - 16), left = Math.min(Math.max(r.left, 8), vw - w - 8), below = vh - r.bottom - 12, above = r.top - 12, h = 380;
+    root.style.width = w + 'px'; root.style.left = (ox + left) + 'px'; root.style.right = 'auto';
+    if (below >= 220 || below >= above) { root.style.top = (oy + r.bottom + 4) + 'px'; root.style.bottom = 'auto'; root.style.maxHeight = Math.max(160, Math.min(h, below)) + 'px'; }
+    else { root.style.bottom = (vh - r.top + 4 - oy + (vv ? (window.innerHeight - vh - oy) : 0)) + 'px'; root.style.top = 'auto'; root.style.maxHeight = Math.max(160, Math.min(h, above)) + 'px'; }
+  }
+  function open(sel, seed){
+    if (!eligible(sel)) return false;
+    if (S) { if (S.sel === sel) { if (seed) { S.input.value += seed; render(false); } return true; } close(false); }
+    var root = el('div', 'ssx'), bar = el('div', 'ssx-bar'), input = el('input', 'ssx-in'), list = el('ul', 'ssx-list'), foot = el('div', 'ssx-foot');
+    input.type = 'search'; input.setAttribute('role', 'combobox'); input.setAttribute('aria-expanded', 'true'); input.setAttribute('aria-controls', UID + '-list'); input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('autocomplete', 'off'); input.setAttribute('autocapitalize', 'off'); input.setAttribute('spellcheck', 'false'); input.placeholder = 'Ketik untuk mencari\u2026';
+    var lab = sel.getAttribute('aria-label') || (sel.id && document.querySelector('label[for="' + (window.CSS && CSS.escape ? CSS.escape(sel.id) : sel.id) + '"]') ? document.querySelector('label[for="' + (window.CSS && CSS.escape ? CSS.escape(sel.id) : sel.id) + '"]').textContent : '') || 'opsi';
+    input.setAttribute('aria-label', 'Cari ' + String(lab).replace(/\s+/g, ' ').trim());
+    list.id = UID + '-list'; list.setAttribute('role', 'listbox'); list.setAttribute('aria-label', 'Pilihan');
+    foot.setAttribute('aria-live', 'polite');
+    bar.appendChild(input); root.appendChild(bar); root.appendChild(list); root.appendChild(foot); document.body.appendChild(root);
+    S = { sel: sel, root: root, input: input, list: list, foot: foot, rows: [], act: -1, opts: readOptions(sel), matches: [] };
+    sel.setAttribute('aria-expanded', 'true');
+    if (seed) input.value = seed;
+    place(); render(false); place(); input.focus({ preventScroll: true });
+    if (seed) { try { input.setSelectionRange(input.value.length, input.value.length); } catch (e) {} }
+    return true;
+  }
+  function close(refocus){
+    if (!S) return; var s = S; S = null;
+    s.sel.removeAttribute('aria-expanded'); if (s.root.parentNode) s.root.parentNode.removeChild(s.root);
+    if (refocus !== false && s.sel.isConnected) { try { s.sel.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  function choose(k){
+    if (!S || k < 0 || !S.rows[k] || S.rows[k].getAttribute('aria-disabled') === 'true') return;
+    var sel = S.sel, i = Number(S.rows[k].dataset.i), changed = sel.selectedIndex !== i;
+    close(true);
+    if (changed) { sel.selectedIndex = i; sel.dispatchEvent(new Event('input', { bubbles: true })); sel.dispatchEvent(new Event('change', { bubbles: true })); }
+  }
+
+  /* ---- masuk: mouse, sentuh, keyboard ---- */
+  document.addEventListener('mousedown', function (e) {
+    if (e.button !== 0) return;
+    if (S && !S.root.contains(e.target) && e.target !== S.sel) { close(false); }   /* klik di luar menutup; tidak merebut fokus */
+    var t = e.target; if (!eligible(t)) return;
+    if (Date.now() - lastTouch < 700) return;
+    e.preventDefault();                                   /* cegah daftar bawaan browser */
+    if (S && S.sel === t) { close(true); return; }
+    try { t.focus({ preventScroll: true }); } catch (x) {}
+    open(t);
+  }, true);
+  document.addEventListener('touchstart', function (e) { var t = e.target; ts = eligible(t) && e.touches.length === 1 ? { t: t, x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { capture: true, passive: true });
+  document.addEventListener('touchend', function (e) {
+    var t = ts && ts.t; ts = null; if (!t || !eligible(t)) return;
+    lastTouch = Date.now();
+    if (e.cancelable) e.preventDefault();
+    if (S && S.sel === t) { close(true); return; }
+    open(t);
+  }, { capture: true, passive: false });
+  document.addEventListener('touchmove', function (e) { if (ts && e.touches[0] && (Math.abs(e.touches[0].clientX - ts.x) > 10 || Math.abs(e.touches[0].clientY - ts.y) > 10)) ts = null; }, { capture: true, passive: true });
+  /* satu pengendali keyboard untuk semua: dipasang di window (capture) agar mendahului modal/pengendali lain saat popup terbuka */
+  window.addEventListener('keydown', function (e) {
+    if (S) {
+      var inPop = S.root.contains(e.target), k = e.key;
+      if (!inPop && e.target !== S.sel) return;
+      if (k === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); close(true); return; }
+      if (k === 'ArrowDown') { e.preventDefault(); e.stopImmediatePropagation(); move(1); return; }
+      if (k === 'ArrowUp') { e.preventDefault(); e.stopImmediatePropagation(); move(-1); return; }
+      if (k === 'PageDown') { e.preventDefault(); e.stopImmediatePropagation(); move(8); return; }
+      if (k === 'PageUp') { e.preventDefault(); e.stopImmediatePropagation(); move(-8); return; }
+      if (k === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); choose(S.act); return; }
+      if (k === 'Tab') { e.stopImmediatePropagation(); var s = S.sel; close(false); try { s.focus({ preventScroll: true }); } catch (x) {} return; }   /* tutup, fokus kembali ke select; Tab berikutnya berjalan normal */
+      if (inPop) { e.stopPropagation(); }
+      return;
+    }
+    var t = e.target; if (!eligible(t) || e.ctrlKey || e.metaKey) return;
+    var k2 = e.key;
+    if (k2 === 'Enter' || k2 === ' ' || k2 === 'ArrowDown' || k2 === 'ArrowUp' || k2 === 'F4') { e.preventDefault(); e.stopImmediatePropagation(); open(t); return; }
+    if (k2.length === 1 && !e.altKey) { e.preventDefault(); e.stopImmediatePropagation(); open(t, k2); }
+  }, true);
+
+  /* ---- di dalam popup ---- */
+  document.addEventListener('input', function (e) { if (S && e.target === S.input) render(false); }, true);
+  document.addEventListener('mousemove', function (e) { if (!S) return; var li = e.target.closest && e.target.closest('.ssx-opt'); if (li && S.root.contains(li)) { var k = S.rows.indexOf(li); if (k >= 0 && k !== S.act) setAct(k, false); } }, true);
+  document.addEventListener('pointerdown', function (e) {
+    if (!S) return; var t = e.target;
+    if (S.root.contains(t)) { if (t !== S.input) e.preventDefault(); return; }                   /* jaga fokus di kotak cari */
+    if (t !== S.sel) close(false);
+  }, true);
+  document.addEventListener('click', function (e) {
+    if (!S) return; var li = e.target.closest && e.target.closest('.ssx-opt'); if (li && S.root.contains(li)) { e.preventDefault(); e.stopPropagation(); choose(S.rows.indexOf(li)); }
+  }, true);
+  function reposition(ev){ if (S && !(ev && ev.target && S.root.contains(ev.target))) place(); }
+  window.addEventListener('scroll', reposition, true); window.addEventListener('resize', reposition);
+  if (window.visualViewport) { window.visualViewport.addEventListener('resize', reposition); window.visualViewport.addEventListener('scroll', reposition); }
+  setInterval(function () { if (S && (!S.sel.isConnected || S.sel.disabled)) close(false); }, 250);
+
+  window.SelectSearch = { version: 1, open: open, close: function () { close(true); }, isOpen: function () { return !!S; } };
 })();
 
 </script>

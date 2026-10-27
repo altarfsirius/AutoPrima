@@ -1,8 +1,11 @@
 /* Altair Auto — service worker (PWA). Naikkan VERSION setiap rilis agar cache cangkang diperbarui.
    Aturan: hanya GET; data database (supabase.co), API Tuntas/Groundwork, dan semua host lain TIDAK pernah di-cache atau dicegat. */
-const VERSION = '2026-10-25-r1';
+const VERSION = '2026-10-27-r7';
 const SHELL = 'altair-auto-shell-' + VERSION;
 const RUNTIME = 'altair-auto-runtime-v1';
+/* nama berkas/jalur lama (AutoPrima, AldebaranCura, versi awal) -> dialihkan ke cangkang aplikasi; query string ikut terbawa, fragmen (#...) dipertahankan oleh browser */
+const LEGACY_PATHS = ['autoprima', 'autoprima.html', 'aldebaracura', 'aldebaracura.html', 'aldebarancura', 'aldebarancura.html', 'identifikasi-kendaraan.html', 'identifikasi-kendaraan'];
+const LEGACY_CACHE_PREFIXES = ['autoprima', 'aldebaracura', 'aldebarancura', 'identifikasi'];
 const SHELL_FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './maskable-512.png', './apple-touch-icon-180.png'];
 /* pustaka statis yang aman di-cache (skrip supabase-js, font) — bukan data pengguna */
 const CDN_HOSTS = ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
@@ -12,7 +15,10 @@ self.addEventListener('install', (e) => {
 });
 self.addEventListener('activate', (e) => {
   e.waitUntil((async () => {
-    for (const k of await caches.keys()) if (k.startsWith('altair-auto-shell-') && k !== SHELL) await caches.delete(k);
+    for (const k of await caches.keys()) {
+      const low = k.toLowerCase();
+      if ((k.startsWith('altair-auto-shell-') && k !== SHELL) || LEGACY_CACHE_PREFIXES.some((p) => low.startsWith(p))) await caches.delete(k);
+    }
     await self.clients.claim();
   })());
 });
@@ -30,6 +36,11 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.origin === self.location.origin) {
     if (url.pathname.endsWith('/sw.js')) return;                       // biarkan browser memeriksa pembaruan SW sendiri
+    const last = decodeURIComponent(url.pathname.split('/').pop() || '').toLowerCase();
+    if (req.mode === 'navigate' && LEGACY_PATHS.includes(last)) {
+      const base = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1);
+      e.respondWith(Response.redirect(url.origin + base + url.search, 302)); return;
+    }
     if (req.mode === 'navigate') { e.respondWith(navigate(req)); return; }
     e.respondWith(staleWhileRevalidate(req, SHELL));
     return;
