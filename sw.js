@@ -1,6 +1,6 @@
 /* Altair Auto — service worker (PWA). Naikkan VERSION setiap rilis agar cache cangkang diperbarui.
    Aturan: hanya GET; data database (supabase.co), API Tuntas/Groundwork, dan semua host lain TIDAK pernah di-cache atau dicegat. */
-const VERSION = '2026-10-27-r9';
+const VERSION = '2026-10-31-r11';
 const SHELL = 'altair-auto-shell-' + VERSION;
 const RUNTIME = 'altair-auto-runtime-v1';
 /* nama berkas/jalur lama (AutoPrima, AldebaranCura, versi awal) -> dialihkan ke cangkang aplikasi; query string ikut terbawa, fragmen (#...) dipertahankan oleh browser */
