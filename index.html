@@ -456,7 +456,7 @@
       <div class="name">Altair Auto</div>
       <div class="tagline">Program perawatan kendaraan &middot; reliability-centered</div>
     </div>
-    <div class="ver-badge" id="verBadge" role="note" title="Altair Auto versi 1.0, revisi 11 (31 Okt 2026)" aria-label="Versi 1.0, revisi 11"><span class="vb-ver">v1.0</span><span class="vb-rev">Rev 11</span></div>
+    <div class="ver-badge" id="verBadge" role="note" title="Altair Auto versi 1.0, revisi 13 (31 Okt 2026)" aria-label="Versi 1.0, revisi 13"><span class="vb-ver">v1.0</span><span class="vb-rev">Rev 13</span></div>
   </div>
 </div>
 
@@ -988,16 +988,16 @@
     </details>
 
     <details class="doc-section">
-      <summary>D. Integrasi API &amp; Project paket (Polaris One &amp; Groundwork)</summary>
+      <summary>D. Integrasi API &amp; Project paket (Polaris One &amp; Altair Project Management)</summary>
       <div class="content">
-        <p>Istilah disamakan dengan Polaris One: <strong>Work Order = Activity</strong>, <strong>Task = Action</strong>. Project paket (A##/C##/D##-Check) diterima dari Groundwork/AltairOrdo.</p>
+        <p>Istilah disamakan dengan Polaris One: <strong>Work Order = Activity</strong>, <strong>Task = Action</strong>. Project paket (A##/C##/D##-Check) diterima dari Altair Project Management.</p>
         <ol style="margin:0;padding-left:18px;line-height:1.8;">
-          <li><strong>Pasang link API</strong> di <button class="ghost" style="padding:2px 10px;font-size:12px;" onclick="showPanel('settings')">Settings &rarr; Connections</button>: isi URL, key, email, password akun Groundwork (Polaris One diatur lewat kartu Polaris One), klik <em>Masuk</em> lalu <em>Tes koneksi</em>. Password tidak disimpan.</li>
-          <li><strong>Terima paket</strong>: buka <button class="ghost" style="padding:2px 10px;font-size:12px;" onclick="showPanel('project')">Service &rarr; Project</button>, cari Project di Groundwork (mis. &ldquo;A03-Check&rdquo;), cek jenis &amp; nomor paket, pilih kendaraan, klik <em>Impor</em>.</li>
+          <li><strong>Pasang link API</strong> di <button class="ghost" style="padding:2px 10px;font-size:12px;" onclick="showPanel('settings')">Settings &rarr; Connections</button>: isi URL, key, email, password akun Altair Project Management (Polaris One diatur lewat kartu Polaris One), klik <em>Masuk</em> lalu <em>Tes koneksi</em>. Password tidak disimpan.</li>
+          <li><strong>Terima paket</strong>: buka <button class="ghost" style="padding:2px 10px;font-size:12px;" onclick="showPanel('project')">Service &rarr; Project</button>, cari Project di Altair Project Management (mis. &ldquo;A03-Check&rdquo;), cek jenis &amp; nomor paket, pilih kendaraan, klik <em>Impor</em>.</li>
           <li><strong>Buat pekerjaan</strong>: di detail Project klik <em>Buat Work Order &amp; Task</em>. Item induk menjadi Work Order (Activity), sub-item menjadi Task (Action). Progres Project dihitung otomatis.</li>
           <li><strong>Sinkron ke Polaris One</strong>: nyalakan saklar <em>Sync with Polaris One</em> pada item berarea Automotive, atau klik <em>Sync now</em> di kartu Polaris One. Kirim ulang memperbarui, tidak menggandakan.</li>
           <li><strong>Terima dari Polaris One</strong>: item dari Polaris One tiba sebagai Work Order/Task berarea Automotive saat sinkron berjalan.</li>
-          <li><strong>Kirim status ke Groundwork</strong>: di detail Project (butuh akses Edit di Groundwork).</li>
+          <li><strong>Kirim status ke Altair Project Management</strong>: di detail Project (butuh akses Edit di Altair Project Management).</li>
         </ol>
         <p class="hint" style="margin-top:8px;">Koneksi langsung ke Tuntas/VEGA TEMPUS sudah dipensiunkan karena digantikan Polaris One; data lama tidak dihapus.</p>
       </div>
@@ -1029,7 +1029,7 @@
       <summary>G. Laporan PDF (WO + Task, Maintenance, Repair, Problem Solving)</summary>
       <div class="content">
         <p><strong>Empat jenis laporan.</strong> <em>WO + Task</em>: satu atau semua Work Order pada kendaraan terpilih dengan seluruh Task, part (nomor part), teknisi, biaya, kotak centang, dan kolom tanda tangan. <em>Maintenance</em>: WO perawatan dalam periode, biaya per kategori, komponen yang dipasang, hasil inspeksi, dan jatuh tempo berikutnya. <em>Repair</em>: temuan (Defect Log), WO perbaikan, waktu dari temuan sampai selesai, dan komponen dengan keandalan menurun. <em>Problem Solving</em>: Problem Case lengkap dengan FEA, RCA (5 Why, fishbone, RPN), PICA, Kaizen, PDCA, dan monitoring.</p>
-        <p><strong>Klasifikasi WO.</strong> WO dianggap <em>Repair</em> bila berasal dari Defect Log / Problem Analysis, terhubung ke temuan atau tindakan PICA, memuat Task berjenis Repair atau Penanganan Problem, atau (tanpa kunci tugas jadwal) judulnya menyebut perbaikan/kerusakan. Selebihnya <em>Maintenance</em>. Kategori biaya mengikuti aturan yang sama dengan modul Usage.</p>
+        <p><strong>Klasifikasi WO.</strong> WO dianggap <em>Repair</em> bila berasal dari Defect Log / Problem Analysis, terhubung ke temuan atau tindakan PICA, memuat Task berjenis Repair atau Problem Handling, atau (tanpa kunci tugas jadwal) judulnya menyebut perbaikan/kerusakan. Selebihnya <em>Maintenance</em>. Kategori biaya mengikuti aturan yang sama dengan modul Usage.</p>
         <p><strong>Cara menyimpan PDF.</strong> Pilih jenis laporan, atur filter, lalu tekan <em>Cetak / Simpan sebagai PDF</em> dan pilih tujuan &ldquo;Simpan sebagai PDF&rdquo; (A4). Nomor halaman otomatis pada Chrome/Edge versi baru. Bila dialog cetak diblokir (misalnya di pratinjau tersemat), pakai <em>Buka di tab baru</em> atau <em>Unduh .html</em> lalu cetak dari peramban.</p>
         <p><strong>Jalan pintas.</strong> Tombol <em>PDF</em> pada setiap baris Work Order, <em>Cetak PDF</em> pada Task Detail, dan <em>Cetak laporan PDF</em> pada detail Problem Case membuka panel ini dengan pilihan yang sudah terisi.</p>
         <p><strong>Catatan.</strong> Angka biaya berasal dari data yang Anda catat; perkiraan jatuh tempo bersifat indikatif dan tidak menggantikan buku manual kendaraan.</p>
@@ -1042,7 +1042,7 @@
     <div class="crumb">Settings <span class="sep">/</span> <span class="current">Database, AI &amp; Integrasi</span></div>
     <header style="margin-bottom:18px;">
       <h1 class="page-title">Settings</h1>
-      <p class="page-desc">Semua setting dan setup API ada di sini: koneksi database Supabase, setup AI, koneksi Polaris One, penerimaan Project dari Groundwork, dan log. Halaman lain hanya menampilkan data dan memberi tautan kembali ke sini.</p>
+      <p class="page-desc">Semua setting dan setup API ada di sini: koneksi database Supabase, setup AI, koneksi Polaris One, penerimaan Project dari Altair Project Management, dan log. Halaman lain hanya menampilkan data dan memberi tautan kembali ke sini.</p>
     </header>
     <div id="ac6SettingsRoot" style="margin-bottom:16px;"></div>
     <div class="sec-title" style="margin-top:0;">Database</div>
@@ -2717,7 +2717,7 @@ update job_card set progress = 100 where status = 'selesai' and progress < 100;<
             <button class="copy-btn" onclick="copySqlTuntasAlign()">Copy SQL</button>
             <div class="hint" style="margin-top:8px;">Setelah dijalankan, form Work Order &amp; Task menampilkan Status/Progress/Priority/jadwal sesuai Tuntas, dan Tuntas bisa memetakan kolom <code>progress</code>, <code>est_hours</code>, <code>planned_start</code> dari Work Order.</div>
           </li>
-          <li><strong>Project paket A##/C##/D##-Check &amp; Integrasi API</strong> (Tuntas/VEGA TEMPUS &amp; Groundwork/AltairOrdo): tabel <code>project</code>, <code>project_item</code>, <code>integration_link</code>, <code>integration_log</code>, kolom <code>work_order.project_id</code>, dan nilai sumber <code>project</code>:
+          <li><strong>Project paket A##/C##/D##-Check &amp; Integrasi API</strong> (Tuntas/VEGA TEMPUS &amp; Altair Project Management): tabel <code>project</code>, <code>project_item</code>, <code>integration_link</code>, <code>integration_log</code>, kolom <code>work_order.project_id</code>, dan nilai sumber <code>project</code>:
             <pre class="sql" id="sqlBlockProjectIntegrasi">-- Altair Auto Fase 3: Project (paket A##/C##/D##-Check) + Integrasi API
 -- Aman dijalankan berulang.
 
@@ -3689,7 +3689,7 @@ Deno.serve(async (req: Request) =&gt; {
     </details>
 
     <div class="sec-title">Integrasi API</div>
-    <p style="margin:0 0 10px;font-size:13px;color:var(--text-dim);">Hubungkan Altair Auto dengan Polaris One dan Groundwork/AltairOrdo. Work Order = Activity, Task = Action.</p>
+    <p style="margin:0 0 10px;font-size:13px;color:var(--text-dim);">Hubungkan Altair Auto dengan Polaris One dan Altair Project Management. Work Order = Activity, Task = Action.</p>
     <div id="intSettingsBox"></div>
 
     <div class="card">
@@ -4396,7 +4396,7 @@ Dimensi
     <div class="crumb">Service <span class="sep">/</span> <span class="current">Project</span></div>
     <header style="margin-bottom:18px;">
       <h1 class="page-title">Project</h1>
-      <p class="page-desc">Paket maintenance A##-Check, C##-Check, dan D##-Check. Programnya diterima dari Groundwork/AltairOrdo (cari Project), lalu dipecah menjadi Work Order (Activity) dan Task (Action) &mdash; bisa disinkronkan ke Polaris One.</p>
+      <p class="page-desc">Paket maintenance A##-Check, C##-Check, dan D##-Check. Programnya diterima dari Altair Project Management (cari Project), lalu dipecah menjadi Work Order (Activity) dan Task (Action) &mdash; bisa disinkronkan ke Polaris One.</p>
     </header>
     <div id="projectBody"></div>
   </div><!-- /panel-project -->
@@ -5901,6 +5901,8 @@ Dimensi
             <tr><td class="mono">2026-10-27</td><td>Ditambahkan lencana <strong>versi &amp; revisi</strong> (v1.0 &middot; Rev 9) di pojok kanan atas header; ikon Layar Utama iPhone memakai berkas PNG.</td></tr>
             <tr><td class="mono">2026-10-28</td><td>Rev 10: layar iPhone tidak lagi memperbesar halaman sendiri saat mengetik (kolom isian berfont 16px di layar sentuh) dan kolom tanggal tidak melebihi lebar layar.</td></tr>
             <tr><td class="mono">2026-10-31</td><td>Rev 11: koneksi Tuntas / VEGA TEMPUS dipensiunkan (digantikan Polaris One); Task template Suzuki All New Ertiga bertambah 33 item dari buku servis Paket A&ndash;D dan tabel jadwal berkala 32 baris (bahasa Inggris, tanpa duplikat).</td></tr>
+            <tr><td class="mono">2026-10-31</td><td>Rev 12: pilihan Work Type (jenis pekerjaan Task) dan kotak pencarian option box diubah ke bahasa Inggris (nilai data tidak berubah).</td></tr>
+            <tr><td class="mono">2026-10-31</td><td>Rev 13: Groundwork / AltairOrdo diganti nama menjadi <strong>Altair Project Management</strong> di seluruh tampilan; kartu rencana AltairOrdo dihapus (sama dengan koneksi ini). Penanda teknis di data tidak berubah.</td></tr>
           </table>
           <p class="hint" style="margin-top:8px;">Versi lengkap &amp; terbaru dari riwayat ini ada di dokumen Konsep Aplikasi (Claude Docs).</p>
         </div>
@@ -7879,14 +7881,14 @@ let woPendingDeleteId = null;
 const WO_STATUS_LABEL = { open:'Not Started', proses:'In Progress', tunda:'On Hold', selesai:'Completed', batal:'Cancelled' };
 const SUMBER_LABEL = { manual:'Manual', program:'Maintenance Program', defect:'Defect Log', inspeksi:'Inspection', problem_analysis:'Problem Analysis (PICA)', event:'Touring / Event', project:'Project (paket)' };
 const JC_JENIS_OPTIONS = [
-  { key:'ganti_part', label:'Ganti Part' },
-  { key:'modifikasi', label:'Modifikasi' },
+  { key:'ganti_part', label:'Part Replacement' },
+  { key:'modifikasi', label:'Modification' },
   { key:'repair', label:'Repair' },
   { key:'replacement', label:'Replacement' },
-  { key:'perawatan', label:'Part Care (Bersihkan & Lumasi)' },
-  { key:'problem_handling', label:'Penanganan Problem' },
+  { key:'perawatan', label:'Part Care (Clean & Lubricate)' },
+  { key:'problem_handling', label:'Problem Handling' },
   { key:'analysis', label:'Analysis' },
-  { key:'lainnya', label:'Lainnya' }
+  { key:'lainnya', label:'Other' }
 ];
 const WO_FILTERS = [
   { key:'aktif', label:'Active' },
@@ -16797,7 +16799,7 @@ window.REPORTS = {
 </script>
 <script>
 /* =====================================================================
-   Altair Auto · Integrasi API (Tuntas/VEGA TEMPUS & Groundwork/AltairOrdo)
+   Altair Auto · Integrasi API (Tuntas/VEGA TEMPUS & Altair Project Management)
    + Project paket A##-Check / C##-Check / D##-Check
    Modul ini SAMA PERSIS di file asli & pratinjau. Akses data lokal lewat window.INT_ADAPTER.
    WO (Work Order) = Activity Tuntas · Task (job_card) = Action Tuntas.
@@ -16813,12 +16815,12 @@ const addDays = (ymd, n) => { const d = new Date(ymd + 'T00:00:00'); d.setDate(d
 const lsGet = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
 const lsSet = (k, v) => { try{ localStorage.setItem(k, v); }catch(e){} };
 const errText = e => (e && (e.message || e.error_description || e.code)) || String(e || 'error');
-const LABEL = { tuntas:'Tuntas / VEGA TEMPUS', groundwork:'Groundwork / AltairOrdo' };
+const LABEL = { tuntas:'Tuntas / VEGA TEMPUS', groundwork:'Altair Project Management' };
 /* Okt 2026: VEGA TEMPUS digantikan Polaris One (pusat Activity & Action). Koneksi langsung ke Tuntas dipensiunkan: kartu, tombol kirim, dan sinkron otomatis
    dimatikan. Kode dan data (integration_link, log) TIDAK dihapus; ubah ke false untuk mengaktifkan kembali. */
 const RETIRED = { tuntas:true };
 
-/* ---------- pemetaan nilai (Altair Auto ⇄ Tuntas ⇄ Groundwork) ---------- */
+/* ---------- pemetaan nilai (Altair Auto ⇄ Tuntas ⇄ Altair Project Management) ---------- */
 const WO_TO_T = { open:'Not Started', proses:'In Progress', tunda:'On Hold', selesai:'Completed', batal:'Cancelled' };
 const JC_TO_T = { belum:'Not Started', proses:'In Progress', tunda:'On Hold', selesai:'Completed', batal:'Cancelled' };
 const PR_TO_T = { rendah:'Low', normal:'Medium', tinggi:'High', kritis:'Critical', darurat:'Critical' };
@@ -17134,7 +17136,7 @@ async function rcvImport(boxId){
   await A().reload(); renderSyncBar(); say(boxId, errs.length ? 'err' : 'ok', msg + dbHint());
 }
 
-/* ---------- Groundwork: cari Project, impor sebagai paket ---------- */
+/* ---------- Altair Project Management: cari Project, impor sebagai paket ---------- */
 const PKG_RE = /(?:^|[^A-Za-z0-9])([ACD])\s*[-_ ]?\s*(\d{1,3})\s*[-_ ]?\s*check\b/i;
 function detectPackage(name){
   const m = PKG_RE.exec(String(name || '')), y = /\b(20\d{2})\b/.exec(String(name || ''));
@@ -17153,13 +17155,13 @@ function treeOrder(rows){
 async function gwSearch(){
   const cl = need('groundwork');
   const r = await cl.from('projects').select('id,no,name,parent_id').order('name', { ascending:true }).limit(500);
-  if(r.error) throw new Error('Groundwork: ' + errText(r.error));
+  if(r.error) throw new Error('Altair Project Management: ' + errText(r.error));
   ST.gw.list = r.data || [];
 }
 async function gwPick(id){
   const cl = need('groundwork'), p = (ST.gw.list || []).find(x => String(x.id) === String(id)); if(!p) return;
   const r = await cl.from('tasks').select('id,no,parent_id,title,description,status,priority,start_date,due_date').eq('project_id', p.id).order('no', { ascending:true }).limit(2000);
-  if(r.error) throw new Error('Groundwork tasks: ' + errText(r.error));
+  if(r.error) throw new Error('Altair Project Management tasks: ' + errText(r.error));
   ST.gw.sel = p; ST.gw.tasks = treeOrder(r.data || []);
   const d = detectPackage(p.name), ex = ST.projects.find(x => x.sumber === 'groundwork' && String(x.ext_id) === String(p.id));
   ST.gw.form = ex ? { jenis:ex.jenis_paket, nomor:ex.nomor_paket, tahun:ex.tahun, kendaraan:ex.kendaraan_id, nama:ex.nama, existing:ex.id } : { jenis:d.jenis, nomor:d.nomor, tahun:d.tahun, kendaraan:A().selectedVehicleId() || '', nama:p.name, existing:null };
@@ -17189,7 +17191,7 @@ async function gwImport(boxId){
       }
     }
     await recomputeProject(proj.id);
-    const msg = 'Project "' + projLabel(proj) + '" ' + (f.existing ? 'diperbarui' : 'diimpor') + ' dari Groundwork: ' + nNew + ' item baru, ' + nUpd + ' diperbarui.';
+    const msg = 'Project "' + projLabel(proj) + '" ' + (f.existing ? 'diperbarui' : 'diimpor') + ' dari Altair Project Management: ' + nNew + ' item baru, ' + nUpd + ' diperbarui.';
     await logOp('groundwork', 'terima', 'Project→paket ' + projLabel(proj), nNew + nUpd, 'ok', msg);
     ST.gw.sel = null; ST.gw.tasks = []; ST.gw.form = null; ST.openProject = proj.id;
     renderProject(); renderGw(); say('gwMsg', 'ok', msg + ' Buka Service → Project, pilih kendaraan, lalu klik “Buat Work Order & Task”.');
@@ -17205,8 +17207,8 @@ async function gwSendStatus(pid, boxId){
     if(r.error){ errs.push(errText(r.error)); continue; }
     if(r.data && r.data.length) ok++; else denied++;
   }
-  const msg = ok + ' item dikirim ke Groundwork' + (denied ? ' · ' + denied + ' ditolak (butuh akses Edit di Groundwork)' : '') + (errs.length ? ' · galat: ' + errs[0] : '') + '.';
-  await logOp('groundwork', 'kirim', 'status item→Groundwork', ok, errs.length || denied ? 'sebagian' : 'ok', msg);
+  const msg = ok + ' item dikirim ke Altair Project Management' + (denied ? ' · ' + denied + ' ditolak (butuh akses Edit di Altair Project Management)' : '') + (errs.length ? ' · galat: ' + errs[0] : '') + '.';
+  await logOp('groundwork', 'kirim', 'status item→Altair Project Management', ok, errs.length || denied ? 'sebagian' : 'ok', msg);
   say(boxId, errs.length || denied ? 'err' : 'ok', msg);
 }
 
@@ -17282,7 +17284,7 @@ async function createYearPlan(){
         pr.nama = projLabel(pr) + ' ' + vLabel(vehicleById(veh)); await A().update('project', pr.id, { nama:pr.nama }); ST.projects.push(pr); made++;
       }
     }
-    const msg = made + ' paket dibuat' + (skipped ? ', ' + skipped + ' sudah ada (dilewati)' : '') + ' untuk ' + vLabel(vehicleById(veh)) + ' tahun ' + yr + '. Sesuaikan tanggal di detail Project, atau terima isi paketnya dari Groundwork.';
+    const msg = made + ' paket dibuat' + (skipped ? ', ' + skipped + ' sudah ada (dilewati)' : '') + ' untuk ' + vLabel(vehicleById(veh)) + ' tahun ' + yr + '. Sesuaikan tanggal di detail Project, atau terima isi paketnya dari Altair Project Management.';
     await logOp('lokal', 'buat', 'jadwal paket tahunan', made, 'ok', msg);
     renderProject(); say('projMsg', 'ok', msg);
   }catch(e){ say('projMsg', 'err', errText(e) + dbHint()); }
@@ -17549,7 +17551,7 @@ function sysCard(sys){
   const c = cfg(sys), u = ST.user[sys];
   const sub = sys === 'tuntas'
     ? 'Tujuan kirim/terima Work Order (Activity) &amp; Task (Action). Tuntas dibaca lewat akun Tuntas Anda (aturan keamanan baris Tuntas tetap berlaku).'
-    : 'Sumber Project paket A##/C##/D##-Check. Hanya Project yang boleh Anda akses di Groundwork yang terlihat.';
+    : 'Sumber Project paket A##/C##/D##-Check. Hanya Project yang boleh Anda akses di Altair Project Management yang terlihat.';
   return `<div class="card"><div class="card-head"><h2>${esc(LABEL[sys])}</h2>${whoChip(sys)}</div>
     <p class="hint">${sub}</p>
     <div class="grid2">
@@ -17557,7 +17559,7 @@ function sysCard(sys){
       <div class="field"><label for="int_${sys}_key">Publishable (anon) key</label><input id="int_${sys}_key" value="${esc(c.key)}" placeholder="sb_publishable_…" autocomplete="off"></div>
     </div>
     <div class="grid2">
-      <div class="field"><label for="int_${sys}_email">Email akun ${sys === 'tuntas' ? 'Tuntas' : 'Groundwork'}</label><input id="int_${sys}_email" type="email" value="${esc(c.email)}" autocomplete="username"></div>
+      <div class="field"><label for="int_${sys}_email">Email akun ${sys === 'tuntas' ? 'Tuntas' : 'Altair Project Management'}</label><input id="int_${sys}_email" type="email" value="${esc(c.email)}" autocomplete="username"></div>
       <div class="field"><label for="int_${sys}_pw">Password</label><input id="int_${sys}_pw" type="password" autocomplete="current-password" placeholder="${u ? '(sudah masuk)' : 'tidak disimpan di perangkat'}"></div>
     </div>
     <div class="row-actions">
@@ -17609,17 +17611,17 @@ function renderSettings(){
   restoreMsgs();
 }
 
-/* ---------- UI: kartu Groundwork (di Settings → Integrasi API) ---------- */
+/* ---------- UI: kartu Altair Project Management (di Settings → Integrasi API) ---------- */
 function gwCardHtml(){
   const gwOn = !!ST.user.groundwork; let h = '';
-  h += `<div class="card"><div class="card-head"><h2>Terima dari Groundwork / AltairOrdo</h2>${whoChip('groundwork')}</div>
-    <p class="hint">Cari Project di Groundwork, lalu impor sebagai paket A##-Check / C##-Check / D##-Check. Item di Project menjadi daftar pekerjaan paket.${gwOn ? '' : ' Masuk dulu di kartu Groundwork di atas.'}</p>
+  h += `<div class="card"><div class="card-head"><h2>Terima dari Altair Project Management</h2>${whoChip('groundwork')}</div>
+    <p class="hint">Cari Project di Altair Project Management, lalu impor sebagai paket A##-Check / C##-Check / D##-Check. Item di Project menjadi daftar pekerjaan paket.${gwOn ? '' : ' Masuk dulu di kartu Altair Project Management di atas.'}</p>
     <div class="row-actions"><div class="field" style="flex:1;min-width:200px;margin:0;"><label for="gwQ" class="sr-only" style="position:absolute;left:-9999px;">Cari Project</label><input id="gwQ" placeholder="cari nama / nomor Project, mis. A03-Check" value="${esc(ST.gw.q)}" onkeydown="if(event.key==='Enter')INTUI.gwFind()"></div>
       <button class="primary" onclick="INTUI.gwFind()"${gwOn ? '' : ' disabled'}>Cari</button></div>
     <div class="msg" id="gwMsg"></div>`;
   if(ST.gw.list){
     const q = ST.gw.q.toLowerCase(), rows = ST.gw.list.filter(p => !q || String(p.name).toLowerCase().indexOf(q) >= 0 || String(p.no || '').toLowerCase().indexOf(q) >= 0).slice(0, 40);
-    h += rows.length ? `<div class="table-scroll"><table class="reftable"><thead><tr><th>Project di Groundwork</th><th>Terdeteksi</th><th></th></tr></thead><tbody>${rows.map(p => {
+    h += rows.length ? `<div class="table-scroll"><table class="reftable"><thead><tr><th>Project di Altair Project Management</th><th>Terdeteksi</th><th></th></tr></thead><tbody>${rows.map(p => {
       const d = detectPackage(p.name), got = ST.projects.some(x => x.sumber === 'groundwork' && String(x.ext_id) === String(p.id));
       return `<tr><td><span class="idchip">${esc(p.no || '–')}</span> &middot; <strong>${esc(p.name)}</strong></td><td>${d.jenis !== 'lainnya' && d.nomor != null ? '<span class="pkg-chip">' + d.jenis + pad2(d.nomor) + '-Check</span>' : '<span class="bsub">bukan pola paket</span>'}</td><td><button class="ghost" style="padding:4px 10px;font-size:12px;" onclick="INTUI.gwPick('${esc(p.id)}')">${got ? 'Perbarui…' : 'Pilih…'}</button></td></tr>`;
     }).join('')}</tbody></table></div>` : '<p class="hint">Tidak ada Project yang cocok.</p>';
@@ -17638,7 +17640,7 @@ function gwCardHtml(){
       </div>
       <div class="field"><label for="gwNama">Nama Project</label><input id="gwNama" value="${esc(f.nama)}"></div>
       <div class="table-scroll"><table class="reftable"><thead><tr><th>WBS</th><th>Item</th><th>Jadwal</th></tr></thead><tbody>${ST.gw.tasks.slice(0, 60).map(t => `<tr><td>${esc(t.wbs)}</td><td style="padding-left:${8 + t.depth * 16}px;">${t.depth ? '' : '<strong>'}${esc(t.row.title)}${t.depth ? '' : '</strong>'}</td><td>${esc(t.row.start_date || '–')} → ${esc(t.row.due_date || '–')}</td></tr>`).join('')}</tbody></table></div>
-      <div class="row-actions"><button class="primary" onclick="INTUI.gwImport()">${f.existing ? 'Perbarui dari Groundwork' : 'Impor sebagai Project'}</button><button class="ghost" onclick="INTUI.gwCancel()">Batal</button></div></div>`;
+      <div class="row-actions"><button class="primary" onclick="INTUI.gwImport()">${f.existing ? 'Perbarui dari Altair Project Management' : 'Impor sebagai Project'}</button><button class="ghost" onclick="INTUI.gwCancel()">Batal</button></div></div>`;
   }
   h += '</div>';
   return h;
@@ -17651,9 +17653,9 @@ function renderProject(){
   const vid = A().selectedVehicleId(), yr = new Date().getFullYear();
   const gwOn = !!ST.user.groundwork;
   let h = '<div class="msg" id="projMsg"></div>';
-  h += `<div class="card"><div class="card-head"><h2>Terima dari Groundwork / AltairOrdo</h2></div><p class="hint">Login, pencarian, dan impor Project dari Groundwork kini ada di <strong>Settings &rarr; Integrasi API</strong>, bersama pengaturan API lainnya. Project yang sudah diimpor tampil di daftar di bawah.</p><div class="row-actions"><button class="ghost" onclick="showPanel('settings')">Buka Settings &rsaquo;</button></div></div>`;
+  h += `<div class="card"><div class="card-head"><h2>Terima dari Altair Project Management</h2></div><p class="hint">Login, pencarian, dan impor Project dari Altair Project Management kini ada di <strong>Settings &rarr; Integrasi API</strong>, bersama pengaturan API lainnya. Project yang sudah diimpor tampil di daftar di bawah.</p><div class="row-actions"><button class="ghost" onclick="showPanel('settings')">Buka Settings &rsaquo;</button></div></div>`;
   /* kartu: jadwal paket 1 tahun + manual */
-  h += `<div class="card"><h2>Jadwal paket 1 tahun</h2><p class="hint">Buat kerangka paket yang akan terjadi beberapa kali dalam setahun (mis. A01…A04-Check). Isi pekerjaannya bisa diterima dari Groundwork atau diketik manual.</p>
+  h += `<div class="card"><h2>Jadwal paket 1 tahun</h2><p class="hint">Buat kerangka paket yang akan terjadi beberapa kali dalam setahun (mis. A01…A04-Check). Isi pekerjaannya bisa diterima dari Altair Project Management atau diketik manual.</p>
     <div class="grid2"><div class="field"><label for="ypVeh">Kendaraan</label><select id="ypVeh">${optVeh(vid, true)}</select></div><div class="field"><label for="ypYear">Tahun</label><input id="ypYear" type="number" value="${yr}" min="2000" max="2100"></div></div>
     <div class="grid2" style="grid-template-columns:1fr 1fr 1fr;"><div class="field"><label for="ypA">Jumlah A-Check</label><input id="ypA" type="number" min="0" max="24" value="4"></div><div class="field"><label for="ypC">Jumlah C-Check</label><input id="ypC" type="number" min="0" max="12" value="2"></div><div class="field"><label for="ypD">Jumlah D-Check</label><input id="ypD" type="number" min="0" max="4" value="1"></div></div>
     <div class="row-actions"><button class="primary" onclick="INTUI.yearPlan()">Buat jadwal paket</button></div>
@@ -17668,10 +17670,10 @@ function renderProject(){
   h += `<div class="card"><div class="card-head"><h2>Daftar Project</h2><span class="count">${list.length} project</span></div>${ST.dbOk ? '' : `<div class="msg show err">Tabel Project belum ada. Jalankan SQL langkah 34 di Settings → Setup Database. ${esc(ST.dbErr)}</div>`}
     ${list.length ? `<div class="table-scroll"><table class="reftable"><thead><tr><th>Project (ID · Paket)</th><th>Kendaraan</th><th>Jadwal</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${list.map(p => {
       const nIt = ST.items.filter(i => i.project_id === p.id).length, nWo = woList().filter(w => w.project_id === p.id).length;
-      return `<tr><td><span class="idchip">${esc(p.nomor_project || '–')}</span> &middot; <span class="pkg-chip">${esc(projLabel(p))}</span> <strong>${esc(p.tahun || '')}</strong><div class="bsub">${esc(p.nama && p.nama !== projLabel(p) ? p.nama : '')}</div><div class="bsub">${p.sumber === 'groundwork' ? 'Groundwork ' + esc(p.ext_kode || '') : 'Lokal'} · ${nIt} item · ${nWo} WO</div></td>
+      return `<tr><td><span class="idchip">${esc(p.nomor_project || '–')}</span> &middot; <span class="pkg-chip">${esc(projLabel(p))}</span> <strong>${esc(p.tahun || '')}</strong><div class="bsub">${esc(p.nama && p.nama !== projLabel(p) ? p.nama : '')}</div><div class="bsub">${p.sumber === 'groundwork' ? 'Altair Project Management ' + esc(p.ext_kode || '') : 'Lokal'} · ${nIt} item · ${nWo} WO</div></td>
         <td>${esc(vLabel(vehicleById(p.kendaraan_id)) || '–')}</td><td>${esc(p.tanggal_mulai || '–')}<br>→ ${esc(p.tanggal_selesai || '–')}</td><td>${statusPill(p.status)}${bar(p.progress)}</td>
         <td><button class="ghost" style="padding:4px 10px;font-size:12px;" onclick="INTUI.projOpen('${p.id}')">${ST.openProject === p.id ? 'Tutup' : 'Detail'}</button></td></tr>`;
-    }).join('')}</tbody></table></div>${ST.projects.find(x => x.id === ST.openProject) ? `<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;"><h3 style="margin:0 0 8px;font-size:15px;">Detail: ${esc(projLabel(ST.projects.find(x => x.id === ST.openProject)))}</h3>${projDetail(ST.projects.find(x => x.id === ST.openProject))}</div>` : ''}` : '<p class="hint">Belum ada Project. Buat jadwal paket 1 tahun di atas, atau terima dari Groundwork.</p>'}</div>`;
+    }).join('')}</tbody></table></div>${ST.projects.find(x => x.id === ST.openProject) ? `<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;"><h3 style="margin:0 0 8px;font-size:15px;">Detail: ${esc(projLabel(ST.projects.find(x => x.id === ST.openProject)))}</h3>${projDetail(ST.projects.find(x => x.id === ST.openProject))}</div>` : ''}` : '<p class="hint">Belum ada Project. Buat jadwal paket 1 tahun di atas, atau terima dari Altair Project Management.</p>'}</div>`;
   box.innerHTML = h;
   restoreMsgs();
 }
@@ -17683,13 +17685,13 @@ function projDetail(p){
       <div class="field"><label>Kendaraan</label><select onchange="INTUI.projField('${p.id}','kendaraan_id',this.value)">${optVeh(p.kendaraan_id, true)}</select></div>
       <div class="field"><label>Status</label><select onchange="INTUI.projField('${p.id}','status',this.value)">${Object.keys(STATUS_LABEL).map(k => `<option value="${k}"${p.status === k ? ' selected' : ''}>${STATUS_LABEL[k]}</option>`).join('')}</select></div></div>
     <div class="grid2"><div class="field"><label>Mulai</label><input type="date" value="${esc(p.tanggal_mulai || '')}" onchange="INTUI.projField('${p.id}','tanggal_mulai',this.value)"></div><div class="field"><label>Selesai</label><input type="date" value="${esc(p.tanggal_selesai || '')}" onchange="INTUI.projField('${p.id}','tanggal_selesai',this.value)"></div></div>
-    <div class="table-scroll"><table class="reftable"><thead><tr><th>WBS</th><th>Item pekerjaan</th><th>Status</th><th>Terhubung</th></tr></thead><tbody>${rows.length ? rows.map(r => `<tr><td>${esc(r.i.wbs || '')}</td><td style="padding-left:${8 + r.depth * 16}px;">${r.depth ? '' : '<strong>'}${esc(r.i.judul)}${r.depth ? '' : '</strong>'}</td><td>${statusPill(r.i.status)}${bar(r.i.progress)}</td><td>${r.i.work_order_id ? '<span class="idchip">' + esc((woById(r.i.work_order_id) || {}).nomor_wo || 'WO') + '</span>' : ''}${r.i.job_card_id ? ' <span class="idchip">' + esc((jcById(r.i.job_card_id) || {}).nomor_jc || 'JC') + '</span>' : ''}${!r.i.work_order_id && !r.i.job_card_id ? '<span class="bsub">belum</span>' : ''}</td></tr>`).join('') : '<tr><td colspan="4" class="hint">Belum ada item. Terima dari Groundwork, atau tambahkan di bawah.</td></tr>'}</tbody></table></div>
+    <div class="table-scroll"><table class="reftable"><thead><tr><th>WBS</th><th>Item pekerjaan</th><th>Status</th><th>Terhubung</th></tr></thead><tbody>${rows.length ? rows.map(r => `<tr><td>${esc(r.i.wbs || '')}</td><td style="padding-left:${8 + r.depth * 16}px;">${r.depth ? '' : '<strong>'}${esc(r.i.judul)}${r.depth ? '' : '</strong>'}</td><td>${statusPill(r.i.status)}${bar(r.i.progress)}</td><td>${r.i.work_order_id ? '<span class="idchip">' + esc((woById(r.i.work_order_id) || {}).nomor_wo || 'WO') + '</span>' : ''}${r.i.job_card_id ? ' <span class="idchip">' + esc((jcById(r.i.job_card_id) || {}).nomor_jc || 'JC') + '</span>' : ''}${!r.i.work_order_id && !r.i.job_card_id ? '<span class="bsub">belum</span>' : ''}</td></tr>`).join('') : '<tr><td colspan="4" class="hint">Belum ada item. Terima dari Altair Project Management, atau tambahkan di bawah.</td></tr>'}</tbody></table></div>
     <div class="row-actions"><div class="field" style="flex:1;min-width:180px;margin:0;"><input id="itNew_${p.id}" placeholder="tambah item pekerjaan (induk)…" onkeydown="if(event.key==='Enter')INTUI.itemAdd('${p.id}')"></div><button class="ghost" onclick="INTUI.itemAdd('${p.id}')">Tambah item</button></div>
     <div class="row-actions" style="margin-top:10px;">
       <button class="primary" onclick="INTUI.gen('${p.id}')">Buat Work Order &amp; Task</button>
       <button class="ghost" onclick="INTUI.recompute('${p.id}')">Hitung ulang progres</button>
       ${RETIRED.tuntas ? '' : `<button class="ghost" onclick="INTUI.projTuntas('${p.id}')"${ST.user.tuntas ? '' : ' disabled'}>&#8599; Kirim ke Tuntas</button>`}
-      ${p.sumber === 'groundwork' ? `<button class="ghost" onclick="INTUI.gwStatus('${p.id}')"${ST.user.groundwork ? '' : ' disabled'}>&#8599; Kirim status ke Groundwork</button>` : ''}
+      ${p.sumber === 'groundwork' ? `<button class="ghost" onclick="INTUI.gwStatus('${p.id}')"${ST.user.groundwork ? '' : ' disabled'}>&#8599; Kirim status ke Altair Project Management</button>` : ''}
       <button class="danger" onclick="INTUI.projDelete('${p.id}')">${ST.confirmDel === p.id ? 'Yakin hapus?' : 'Hapus'}</button>
     </div><p class="hint">${nWo} Work Order terhubung. Induk → Work Order (Activity); sub-item → Task (Action). Progres Project dihitung dari Work Order &amp; Task.</p></div>`;
 }
@@ -18111,7 +18113,7 @@ try{ DASAR.render(); }catch(e){ console.warn(e); }
 </script>
 <script>
 /* ===== Altair Auto · Polaris One (contract polaris-hub/1) — kartu Settings + saklar per item =====
-   Pusat Activity & Action = Polaris One. Pusat Project Management = AltairOrdo (tidak diubah oleh modul ini).
+   Pusat Activity & Action = Polaris One. Pusat Project Management = Altair Project Management (sebelumnya Groundwork/AltairOrdo; tidak diubah oleh modul ini).
    Rahasia (POLARIS_HUB_SECRET) TIDAK pernah diketik/disimpan di sini: hanya environment secret di server. */
 (function(){
 'use strict';
@@ -18241,7 +18243,7 @@ function card(){
       <button type="button" class="ghost" onclick="AC6.polaris.setPaused(${l.paused ? 'false' : 'true'})">${l.paused ? 'Resume' : 'Pause'}</button>
       <button type="button" class="ghost" onclick="AC6.polaris.disconnect()">${l.connected ? 'Disconnect' : 'Reconnect'}</button></div>` : `<div class="row-actions" style="margin-top:8px;"><button type="button" class="primary" onclick="AC6.polaris.saveLink()" ${ST.missing ? 'disabled' : ''}>Create link</button></div>`;
   return `<div class="card-head"><h2>Polaris One — Activity &amp; Action</h2><span class="status-pill ${pk}">${pt}</span></div>
-    <p class="hint">Polaris One adalah pusat Activity &amp; Action; pusat Project Management tetap AltairOrdo. Altair Auto hanya bertukar Activity (Project → Sub-Activity) dan Action (Task) yang <strong>sengaja Anda aktifkan</strong> dengan area Automotive (kontrak Rev 28). Data pribadi dan item yang tidak diaktifkan tidak pernah dikirim; penghapusan dari Polaris One hanya membatalkan item (status Cancelled), tidak menghapus data.</p>
+    <p class="hint">Polaris One adalah pusat Activity &amp; Action; Project Management tetap di Altair Project Management. Altair Auto hanya bertukar Activity (Project → Sub-Activity) dan Action (Task) yang <strong>sengaja Anda aktifkan</strong> dengan area Automotive (kontrak Rev 28). Data pribadi dan item yang tidak diaktifkan tidak pernah dikirim; penghapusan dari Polaris One hanya membatalkan item (status Cancelled), tidak menghapus data.</p>
     ${modeNote}${msg}
     ${ST.missing ? '' : `<div style="display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
       <div class="field" style="margin:0;"><label for="polUrl">Function address (Polaris One)</label><input id="polUrl" value="${esc(url)}" placeholder="https://&lt;polaris-project&gt;.supabase.co/functions/v1/polaris-hub" oninput="AC6.polaris.urlDraft(this.value)"></div>
@@ -18959,7 +18961,7 @@ boot().catch(e => { console.error('[ag] boot', e); try{ lock('error', { k:'err',
 /* ===== Connections hub (Settings) — gaya katalog koneksi: Browse / Connected / Manage =====
    Prinsip: hanya koneksi yang NYATA; yang belum dibangun diberi label "Segera hadir" tanpa tombol palsu.
    Tidak ada rahasia di browser: yang ditampilkan hanya status dan ID non-rahasia.
-   Kartu pengaturan lama (Database, AI, Tuntas, Groundwork, Polaris One) tidak ditulis ulang: node aslinya
+   Kartu pengaturan lama (Database, AI, Tuntas, Altair Project Management, Polaris One) tidak ditulis ulang: node aslinya
    dipindahkan ke jendela "Manage" (ID dan handler tetap), lalu dikembalikan ke penampungan tersembunyi saat ditutup. */
 (function(){
 'use strict';
@@ -18996,12 +18998,12 @@ var CONNS = [
     nodes:function(){ var p = $('statusPill'); return [p && p.parentNode, $('setupBox')]; },
     forget:{ label:'Putuskan dari perangkat ini', note:'Menghapus URL dan anon key yang tersimpan di browser ini. Data di database TIDAK dihapus.', run:function(){ if(typeof clearConnection === 'function') clearConnection(); } },
     stored:function(){ var u = ls('ik_sbUrl'); return u ? { what:'Project URL + anon key', host:u.replace(/^https?:\/\//, '').replace(/\/.*$/, '') } : null; } },
-  { id:'groundwork', name:'Groundwork', mono:'GW', cat:'Project', type:'Dua arah', status:function(){ return intStatus('groundwork'); },
-    desc:'Sumber Project paket A##/C##/D##-Check. Hanya Project yang boleh Anda akses di Groundwork yang terlihat.',
-    caps:['Mencari Project di Groundwork','Impor Project sebagai paket A##/C##/D##-Check','Perbarui paket dari Groundwork','Kirim balik status dan prioritas item (butuh akses Edit di Groundwork)'],
-    access:['Masuk dengan akun Groundwork Anda; aturan keamanan di Groundwork tetap berlaku','Password tidak disimpan di perangkat','Hanya admin Altair Auto yang dapat mengubah koneksi ini'],
+  { id:'groundwork', name:'Altair Project Management', mono:'AP', cat:'Project', type:'Dua arah', status:function(){ return intStatus('groundwork'); },
+    desc:'Sumber Project paket A##/C##/D##-Check. Hanya Project yang boleh Anda akses di Altair Project Management yang terlihat.',
+    caps:['Mencari Project di Altair Project Management','Impor Project sebagai paket A##/C##/D##-Check','Perbarui paket dari Altair Project Management','Kirim balik status dan prioritas item (butuh akses Edit di Altair Project Management)'],
+    access:['Masuk dengan akun Altair Project Management Anda; aturan keamanan di Altair Project Management tetap berlaku','Password tidak disimpan di perangkat','Hanya admin Altair Auto yang dapat mengubah koneksi ini'],
     mode:'groundwork', nodes:function(){ return [$('intSettingsBox')]; },
-    forget:{ label:'Keluar dan hapus pengaturan', note:'Keluar dari Groundwork dan menghapus URL, key, dan email yang tersimpan di browser ini. Data di Groundwork tidak diubah.', run:function(){ if(window.INTUI && INTUI.forget) return INTUI.forget('groundwork'); } },
+    forget:{ label:'Keluar dan hapus pengaturan', note:'Keluar dari Altair Project Management dan menghapus URL, key, dan email yang tersimpan di browser ini. Data di Altair Project Management tidak diubah.', run:function(){ if(window.INTUI && INTUI.forget) return INTUI.forget('groundwork'); } },
     stored:function(){ return storedInt('groundwork'); } },
   { id:'polaris', name:'Polaris One', mono:'PO', cat:'Activity', type:'Dua arah', status:polStatus,
     desc:'Pusat Activity & Action. Hanya item yang sengaja Anda tandai dengan area Automotive yang dikirim.',
@@ -19016,9 +19018,6 @@ var CONNS = [
     caps:['Analisa otomatis tiap tahap Problem Analysis lewat Edge Function ai-problem-research','Hasil hanya usulan; keputusan tetap di tangan Anda'],
     access:['ANTHROPIC_API_KEY hanya sebagai secret Edge Function di server; tidak pernah di browser atau repositori','Aplikasi hanya memanggil fungsi di project Supabase Anda'],
     nodes:function(){ return [$('aiSetupBox')]; }, forget:null, stored:function(){ return null; } },
-  { id:'altairordo', planned:true, name:'AltairOrdo — Project Management', mono:'AO', cat:'Project', type:'Rencana',
-    desc:'Pusat Project Management. Integrasi langsung belum dibangun; untuk sekarang Project masuk lewat Groundwork.',
-    plan:['Belum ada kode, endpoint, atau data yang dijalankan untuk koneksi ini.','Sementara: gunakan koneksi Groundwork untuk menerima Project dan mengirim balik status.','Saat dibangun, mengikuti aturan yang sama: rahasia hanya di server, tanda tangan diverifikasi sebelum akses database, tidak ada hapus permanen.'] },
   { id:'partscatalog', planned:true, name:'Katalog part (API eksternal)', mono:'PC', cat:'Katalog', type:'Rencana',
     desc:'Auto Parts Catalog (RapidAPI), Car API, dan backend auto-parts-catalog. Menunggu keputusan dan akses dari pemilik.',
     plan:['Belum ada adapter live. Semua panggilan nanti lewat proxy server berotorisasi; RAPIDAPI_KEY hanya sebagai environment secret server.','Article ID penyedia bukan nomor OEM; hasil cross-reference tidak otomatis fitment terverifikasi.','Bila kunci API pernah terlihat di gambar atau tangkapan layar, anggap bocor dan minta pemilik me-rotate lewat kanal aman.'],
@@ -19144,7 +19143,7 @@ function renderHub(){
   var t = [['browse','Browse Connections'],['connected','Connected' + '<span class="cx-badge">' + n + '</span>'],['manage','Manage']];
   var fq = D.activeElement && D.activeElement.id === 'cxQ' ? D.activeElement.selectionStart : null;
   var ae = D.activeElement, fk = (ae && ae.getAttribute && ae.getAttribute('data-cx') && ae.getAttribute('data-id') && h.contains(ae)) ? '[data-cx="' + ae.getAttribute('data-cx') + '"][data-id="' + ae.getAttribute('data-id') + '"]' : null;
-  h.innerHTML = '<h2 class="cx-h">Connections</h2><p class="cx-sub">Hubungkan Altair Auto dengan database, Groundwork, dan Polaris One. Semua pengaturan koneksi ada di sini; kartu lain di bawah adalah akun, pengguna, backup, dan aplikasi.</p>' +
+  h.innerHTML = '<h2 class="cx-h">Connections</h2><p class="cx-sub">Hubungkan Altair Auto dengan database, Altair Project Management, dan Polaris One. Semua pengaturan koneksi ada di sini; kartu lain di bawah adalah akun, pengguna, backup, dan aplikasi.</p>' +
     '<div class="cx-tabs" role="tablist" aria-label="Connections">' + t.map(function(x){ return '<button type="button" role="tab" id="cxTab-' + x[0] + '" aria-selected="' + (ST.tab === x[0]) + '" data-cx="tab" data-id="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>' +
     '<div role="tabpanel" aria-labelledby="cxTab-' + ST.tab + '">' + (ST.tab === 'browse' ? paneBrowse() : ST.tab === 'connected' ? paneConnected() : paneManage()) + '</div>';
   if(fk){ var fe = h.querySelector(fk); if(fe) try{ fe.focus(); }catch(e){} }
@@ -19246,7 +19245,7 @@ function mount(){
   });
   var dbCard = [].filter.call(pan.querySelectorAll(':scope > .card'), function(e){ var h = e.querySelector('h2'); return h && h.textContent.trim() === 'Database'; })[0];
   if(dbCard){ dbCard.hidden = true; dbCard.setAttribute('data-cx-note', 'preview'); }
-  var pd = pan.querySelector('.page-desc'); if(pd) pd.textContent = 'Connections (database, AI, Groundwork, Polaris One) ada di bagian atas. Di bawahnya: akun, pengguna, backup, dan aplikasi (PWA). Halaman lain hanya menampilkan data dan memberi tautan kembali ke sini.';
+  var pd = pan.querySelector('.page-desc'); if(pd) pd.textContent = 'Connections (database, AI, Altair Project Management, Polaris One) ada di bagian atas. Di bawahnya: akun, pengguna, backup, dan aplikasi (PWA). Halaman lain hanya menampilkan data dan memberi tautan kembali ke sini.';
   relocate(); renderHub();
   var root2 = $('ac6SettingsRoot');
   try{
@@ -19375,7 +19374,7 @@ register();
 })();
 
 </script>
-<script id="verScript">window.ALTAIR_BUILD={version:'1.0',rev:11,date:'2026-10-31'};(function(){try{var b=window.ALTAIR_BUILD,e=document.getElementById('verBadge');if(!e)return;e.querySelector('.vb-ver').textContent='v'+b.version;e.querySelector('.vb-rev').textContent='Rev '+b.rev;var d=new Date(b.date+'T00:00:00'),t=isNaN(d)?b.date:d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});e.title='Altair Auto versi '+b.version+', revisi '+b.rev+' ('+t+')';}catch(_){}})();</script>
+<script id="verScript">window.ALTAIR_BUILD={version:'1.0',rev:13,date:'2026-10-31'};(function(){try{var b=window.ALTAIR_BUILD,e=document.getElementById('verBadge');if(!e)return;e.querySelector('.vb-ver').textContent='v'+b.version;e.querySelector('.vb-rev').textContent='Rev '+b.rev;var d=new Date(b.date+'T00:00:00'),t=isNaN(d)?b.date:d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});e.title='Altair Auto versi '+b.version+', revisi '+b.rev+' ('+t+')';}catch(_){}})();</script>
 <script id="ssxScript">
 /* Altair Auto \u2014 pencarian ketik untuk SEMUA option box (<select>).
    Tidak mengganti elemen: <select> asli tetap ada, nilainya tetap dibaca/ditulis oleh kode lama, dan event input/change tetap
@@ -19453,8 +19452,8 @@ register();
       if (m.disabled) li.setAttribute('aria-disabled', 'true');
       hilite(li, m.text, toks); list.appendChild(li); S.rows.push(li); if (m.sel && firstSel < 0) firstSel = idx; idx++;
     });
-    if (!shown.length) { var n = el('li', 'ssx-none', q ? 'Tidak ada hasil untuk \u201c' + S.input.value.trim() + '\u201d' : 'Tidak ada opsi'); n.setAttribute('role', 'presentation'); list.appendChild(n); }
-    S.foot.textContent = matches.length > MAXROWS ? 'Menampilkan ' + MAXROWS + ' dari ' + matches.length + ' \u2014 persempit pencarian' : (q ? matches.length + ' dari ' + S.opts.length + ' opsi' : S.opts.length + ' opsi');
+    if (!shown.length) { var n = el('li', 'ssx-none', q ? 'No results for \u201c' + S.input.value.trim() + '\u201d' : 'No options'); n.setAttribute('role', 'presentation'); list.appendChild(n); }
+    S.foot.textContent = matches.length > MAXROWS ? 'Showing ' + MAXROWS + ' of ' + matches.length + ' \u2014 narrow your search' : (q ? matches.length + ' of ' + S.opts.length + ' options' : S.opts.length + (S.opts.length === 1 ? ' option' : ' options'));
     var want = keepAct && S.act >= 0 && S.act < S.rows.length ? S.act : (q ? firstEnabled(0) : (firstSel >= 0 ? firstSel : firstEnabled(0)));
     setAct(want, true);
   }
@@ -19487,10 +19486,10 @@ register();
     if (S) { if (S.sel === sel) { if (seed) { S.input.value += seed; render(false); } return true; } close(false); }
     var root = el('div', 'ssx'), bar = el('div', 'ssx-bar'), input = el('input', 'ssx-in'), list = el('ul', 'ssx-list'), foot = el('div', 'ssx-foot');
     input.type = 'search'; input.setAttribute('role', 'combobox'); input.setAttribute('aria-expanded', 'true'); input.setAttribute('aria-controls', UID + '-list'); input.setAttribute('aria-autocomplete', 'list');
-    input.setAttribute('autocomplete', 'off'); input.setAttribute('autocapitalize', 'off'); input.setAttribute('spellcheck', 'false'); input.placeholder = 'Ketik untuk mencari\u2026';
+    input.setAttribute('autocomplete', 'off'); input.setAttribute('autocapitalize', 'off'); input.setAttribute('spellcheck', 'false'); input.placeholder = 'Type to search\u2026';
     var lab = sel.getAttribute('aria-label') || (sel.id && document.querySelector('label[for="' + (window.CSS && CSS.escape ? CSS.escape(sel.id) : sel.id) + '"]') ? document.querySelector('label[for="' + (window.CSS && CSS.escape ? CSS.escape(sel.id) : sel.id) + '"]').textContent : '') || 'opsi';
-    input.setAttribute('aria-label', 'Cari ' + String(lab).replace(/\s+/g, ' ').trim());
-    list.id = UID + '-list'; list.setAttribute('role', 'listbox'); list.setAttribute('aria-label', 'Pilihan');
+    input.setAttribute('aria-label', 'Search ' + String(lab).replace(/\s+/g, ' ').trim());
+    list.id = UID + '-list'; list.setAttribute('role', 'listbox'); list.setAttribute('aria-label', 'Options');
     foot.setAttribute('aria-live', 'polite');
     bar.appendChild(input); root.appendChild(bar); root.appendChild(list); root.appendChild(foot); document.body.appendChild(root);
     S = { sel: sel, root: root, input: input, list: list, foot: foot, rows: [], act: -1, opts: readOptions(sel), matches: [] };
